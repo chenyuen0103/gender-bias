@@ -1,6 +1,7 @@
 # Gender Bias Project
 This repo contains the code and data for the paper:
-[**Understanding Stereotypes in Language Models: Towards Robust Measurement and Zero-Shot Debiasing**](placeholder for arxiv link)
+
+[**Understanding Stereotypes in Language Models: Towards Robust Measurement and Zero-Shot Debiasing**](placeholder for arxiv link)(2023)
 
 *Justus Mattern, Yuen Chen, Mrinmaya Sachan, Rada Mihalcea, Bernhard Schölkopf, and Zhijing Jin*
 
