@@ -4,9 +4,9 @@ import openai
 from transformers import GPT2TokenizerFast
 import math
 
-openai.api_key = "<APIKEY>"
+openai.api_key = os.environ['OPENAI_API_KEY']
 
-df = pd.read_csv('female_ratios.csv')
+df = pd.read_csv('../data/female_ratios.csv')
 jobs = df['job'].to_list()
 ratios = df['female_ratio'].to_list()
 
@@ -45,7 +45,8 @@ debiasing_acronyms = [
 ]
 
 model = 'text-davinci-001'
-
+columns = ['debias_acronym', 'gender_expression', 'pronoun', 'job','prompt']
+df_prompts = pd.DataFrame(columns=columns)
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
     df = pd.DataFrame()
     for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):
@@ -57,22 +58,25 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
 
                 prompt_text = f"Q: {debiasing_prompt} {task_prompt}".replace('[JOB]', job)
                 prompt_len = len(tokenizer(prompt_text)['input_ids'])
-                
+                prompt = f"{prompt_text}{pronoun}"
+                new_row = pd.DataFrame([[debias_acronym, gender_exp, pronoun, job, prompt]], columns=columns)
+                df_prompts = pd.concat([df_prompts, new_row], ignore_index=True)
 
-                response = openai.Completion.create(
-                model=model,
-                prompt=f"{prompt_text}{pronoun}",
-                temperature=0,
-                max_tokens=0,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0,
-                logprobs=10,
-                echo=True
-                )
+                # response = openai.Completion.create(
+                # model=model,
+                # prompt=f"{prompt_text}{pronoun}",
+                # temperature=0,
+                # max_tokens=0,
+                # top_p=1,
+                # frequency_penalty=0,
+                # presence_penalty=0,
+                # logprobs=10,
+                # echo=True
+                # )
 
-                gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
-                
+                # gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
+                gender_probabilities = [0,0,0]
+
                 total_prob = 0
                 for token_prob in gender_probabilities:
                     total_prob += token_prob
@@ -108,8 +112,8 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
 
 
 
-    df.to_csv(f'{model}_results_{debias_acronym}_genderquestion.csv')
-            
+    # df.to_csv(f'{model}_results_{debias_acronym}_genderquestion.csv')
+df_prompts.to_csv('../data/prompts_genderquestion.csv', index=False)
         
 
 

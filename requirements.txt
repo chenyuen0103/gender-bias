@@ -1,0 +1,5 @@
+numpy
+openai
+tqdm
+transformers
+pandas

@@ -4,9 +4,9 @@ import openai
 from transformers import GPT2TokenizerFast
 import math
 
-openai.api_key = "<APIKEY>"
+openai.api_key = os.environ['OPENAI_API_KEY']
 
-df = pd.read_csv('female_ratios.csv')
+df = pd.read_csv('../data/female_ratios.csv')
 jobs = df['job'].to_list()
 ratios = df['female_ratio'].to_list()
 
@@ -50,34 +50,41 @@ debiasing_acronyms = [
 ]
 
 model = 'text-davinci-001'
+num_queries = 0
+# create a empty prompt dataframe with columns 'debiasing_prompt_acronym',
+# 'gender_expression', 'pronoun', 'prompt_acronym', 'jobs', and 'prompt'
+columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', 'job','prompt']
+df_prompts = pd.DataFrame(columns=columns)
 
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
     df = pd.DataFrame()
-
+    print(debiasing_prompt,debias_acronym)
     for i, pronoun_list in enumerate(gender_expressions):
         for prompt_text_base, pronoun, acronym in zip(task_prompts, pronoun_list, prompt_acronyms):
             column_name = f'{model}_{genders[i]}_{acronym}'
             column_vals = []
             for job in jobs:
-
                 prompt_text = prompt_text_base.replace('[JOB]', job)
                 prompt_len = len(tokenizer(prompt_text)['input_ids'])
-                
+                prompt = f"Q: {debiasing_prompt} {prompt_text}{pronoun}"
+                new_row = pd.DataFrame([[debias_acronym, pronoun_list, pronoun, acronym, job, prompt]], columns=columns)
+                df_prompts = pd.concat([df_prompts,new_row], ignore_index=True)
+                # response = openai.Completion.create(
+                # model=model,
+                # prompt=f"Q: {debiasing_prompt} {prompt_text}{pronoun}",
+                # temperature=0,
+                # max_tokens=0,
+                # top_p=1,
+                # frequency_penalty=0,
+                # presence_penalty=0,
+                # logprobs=10,
+                # echo=True
+                # )
+                resposne = ''
+                num_queries += 1
 
-                response = openai.Completion.create(
-                model=model,
-                prompt=f"Q: {debiasing_prompt} {prompt_text}{pronoun}",
-                temperature=0,
-                max_tokens=0,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0,
-                logprobs=10,
-                echo=True
-                )
-
-                gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
-                
+                # gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
+                gender_probabilities = [0,0,0]
                 total_prob = 0
                 for token_prob in gender_probabilities:
                     total_prob += token_prob
@@ -113,7 +120,9 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
 
 
 
-    df.to_csv(f'{model}_results_{debias_acronym}.csv')
+df_prompts.to_csv('../data/prompts.csv', index=False)
+
+    # df.to_csv(f'{model}_results_{debias_acronym}.csv')
             
         
 
