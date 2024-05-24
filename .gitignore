@@ -161,5 +161,7 @@ cython_debug/
 .DS_Store
 
 .idea/
+data/outputs/
+
 
 data/prompts*.csv

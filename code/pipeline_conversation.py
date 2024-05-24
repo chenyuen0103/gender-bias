@@ -3,14 +3,15 @@ import os
 import openai
 from transformers import GPT2TokenizerFast
 import math
+import tiktoken
 
-openai.api_key = os.environ['OPENAI_API_KEY']
+
 
 df = pd.read_csv('../data/female_ratios.csv')
 jobs = df['job'].to_list()
 ratios = df['female_ratio'].to_list()
 
-tokenizer = GPT2TokenizerFast.from_pretrained('gpt2')
+
 
 
 prompt_acronyms = ['met-met', 'friend', 'talk-met']
@@ -53,11 +54,16 @@ debiasing_acronyms = [
     "high-6",
 ]
 
-model = 'text-davinci-001'
+# model = 'text-davinci-001'
+model = 'gpt-3.5-turbo-1106'
+if 'gpt-3.5-turbo' in model:
+    tokenizer = tiktoken.encoding_for_model('gpt-3.5-turbo')
+else:
+    tokenizer = GPT2TokenizerFast.from_pretrained('gpt2')
 
 # create an empty prompt dataframe with columns 'debiasing_prompt_acronym',
 # 'gender_expression', 'pronoun', 'prompt_acronym', 'jobs', and 'prompt'
-columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', 'job','prompt']
+columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', 'job','prompt', 'gender_probabilities']
 df_prompts = pd.DataFrame(columns=columns)
 
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
@@ -68,13 +74,13 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
             column_name = f'{model}_{genders[i]}_{acronym}'
             column_vals = []
             for job in jobs:
-
                 prompt_text = f"{bot_instruction} {debiasing_prompt}\n\n{pre_conversation}{prompt_text_base}".replace('[JOB]', job)
-                prompt_len = len(tokenizer(prompt_text)['input_ids'])
+                if 'gpt-3.5-turbo' in model:
+                    prompt_len = len(tokenizer.encode(prompt_text))
+                else:
+                    prompt_len = len(tokenizer(prompt_text)['input_ids'])
                 prompt = prompt_text+pronoun
-                new_row = pd.DataFrame([[debias_acronym, pronoun_list, pronoun, acronym, job, prompt]], columns=columns)
-                df_prompts = pd.concat([df_prompts,new_row], ignore_index=True)
-                
+
 
                 # response = openai.Completion.create(
                 # model=model,
@@ -93,11 +99,12 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
                 total_prob = 0
                 for token_prob in gender_probabilities:
                     total_prob += token_prob
-                
+
                 total_prob = math.exp(total_prob)
 
                 column_vals.append(total_prob)
-
+                new_row = pd.DataFrame([[debias_acronym, pronoun_list, pronoun, acronym, job, prompt, gender_probabilities]], columns=columns)
+                df_prompts = pd.concat([df_prompts, new_row], ignore_index=True)
 
             df[column_name] = column_vals
 
@@ -118,7 +125,7 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
             male_vals_new.append(m_final)
             female_vals_new.append(f_final)
             diverse_vals_new.append(d_final)
-        
+
         df[f'{model}_male_{acr}'] = male_vals_new
         df[f'{model}_female_{acr}'] = female_vals_new
         df[f'{model}_diverse_{acr}'] = diverse_vals_new

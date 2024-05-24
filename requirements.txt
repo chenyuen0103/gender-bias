@@ -3,3 +3,4 @@ openai
 tqdm
 transformers
 pandas
+git+https://github.com/zhijing-jin/efficiency.git
