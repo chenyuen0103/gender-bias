@@ -4,12 +4,17 @@ import torch
 import math
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from itertools import product
+from accelerate import Accelerator
+
+# Initialize Accelerator
+accelerator = Accelerator()
 
 model_id = "meta-llama/Meta-Llama-3-8B"
 HF_TOKEN = os.getenv("HF_TOKEN")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def get_logprobs(model, tokenizer, prompt):
-    inputs = tokenizer(prompt, return_tensors='pt').to(device)
+    inputs = tokenizer(prompt, return_tensors='pt')
+    inputs = accelerator.prepare(inputs)
     with torch.no_grad():
         outputs = model(**inputs, labels=inputs['input_ids'])
     logprobs = torch.log_softmax(outputs.logits, dim=-1)
@@ -20,7 +25,7 @@ def get_logprobs(model, tokenizer, prompt):
 # Load the tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="auto", token=HF_TOKEN)
-model.to(device)
+model = accelerator.prepare(model)
 model.eval()  # Set the model to evaluation mode
 
 
@@ -81,25 +86,25 @@ df_prompts = pd.DataFrame(columns=columns)
 
 
 
-def get_top_k_logprobs(model, tokenizer, prompt, k=10):
-    inputs = tokenizer(prompt, return_tensors='pt').to(device)
-    with torch.no_grad():
-        outputs = model(**inputs, labels=inputs['input_ids'])
-    logprobs = torch.log_softmax(outputs.logits, dim=-1)
-
-    top_k_token_ids = []
-    top_k_logprobs = []
-
-    for i in range(logprobs.size(1)):  # Iterate over each token position
-        logprobs_i = logprobs[0, i, :]  # Get log probabilities for the i-th token
-        top_k_logprobs_i, top_k_indices_i = torch.topk(logprobs_i, k)  # Get top k log probabilities and indices
-
-        top_k_token_ids.append(top_k_indices_i.cpu().numpy().tolist())
-        top_k_logprobs.append(top_k_logprobs_i.cpu().numpy().tolist())
-
-    return top_k_token_ids, top_k_logprobs, inputs['input_ids']
-
-
+# def get_top_k_logprobs(model, tokenizer, prompt, k=10):
+#     inputs = tokenizer(prompt, return_tensors='pt').to(device)
+#     with torch.no_grad():
+#         outputs = model(**inputs, labels=inputs['input_ids'])
+#     logprobs = torch.log_softmax(outputs.logits, dim=-1)
+#
+#     top_k_token_ids = []
+#     top_k_logprobs = []
+#
+#     for i in range(logprobs.size(1)):  # Iterate over each token position
+#         logprobs_i = logprobs[0, i, :]  # Get log probabilities for the i-th token
+#         top_k_logprobs_i, top_k_indices_i = torch.topk(logprobs_i, k)  # Get top k log probabilities and indices
+#
+#         top_k_token_ids.append(top_k_indices_i.cpu().numpy().tolist())
+#         top_k_logprobs.append(top_k_logprobs_i.cpu().numpy().tolist())
+#
+#     return top_k_token_ids, top_k_logprobs, inputs['input_ids']
+#
+#
 
 total_queries = len(list(product(debiasing_prompts,gender_expressions,task_prompts,jobs)))
 finished_queries = 0
