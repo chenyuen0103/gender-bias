@@ -7,7 +7,9 @@ from itertools import product
 
 
 # model_id = "meta-llama/Meta-Llama-3-8B"
+# model_str = 'llama3_8B'
 model_id = "mistralai/Mistral-7B-Instruct-v0.2"
+model_str = 'mistral_7B_instruct'
 HF_TOKEN = os.getenv("HF_TOKEN")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -15,7 +17,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 quantization_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype="torch.float16",
+        bnb_4bit_compute_dtype="float16",
 )
 
 
@@ -89,7 +91,6 @@ debiasing_acronyms = [
 ]
 
 
-model_str = 'llama3_8B'
 
 # create a empty prompt dataframe with columns 'debiasing_prompt_acronym',
 # 'gender_expression', 'pronoun', 'prompt_acronym', 'jobs', and 'prompt'
