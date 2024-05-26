@@ -73,7 +73,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 # create a empty prompt dataframe with columns 'debiasing_prompt_acronym',
 # 'gender_expression', 'pronoun', 'prompt_acronym', 'jobs', and 'prompt'
-columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', 'job','prompt', 'last_token_prob', 'total_prob']
+columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', 'job','prompt', 'last_token_prob']
 df_prompts = pd.DataFrame(columns=columns)
 
 
