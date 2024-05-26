@@ -19,7 +19,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if os.path.exists(model_id):
     print(f"A local directory named '{model_id}' exists. Please rename or remove it to avoid conflicts.", flush=True)
 else:
-    print(f"No local directory named '{model_id}' exists. You should be able to download the model from Hugging Face.",Flush=True)
+    print(f"No local directory named '{model_id}' exists. You should be able to download the model from Hugging Face.",flush=True)
 
 
 # specify how to quantize the model
