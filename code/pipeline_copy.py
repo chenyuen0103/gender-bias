@@ -79,7 +79,6 @@ model.to(device)
 # create a empty prompt dataframe with columns 'debiasing_prompt_acronym',
 # 'gender_expression', 'pronoun', 'prompt_acronym', 'jobs', and 'prompt'
 columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', 'job','prompt', 'last_token_prob']
-df_prompts = pd.DataFrame(columns=columns)
 
 
 
@@ -110,7 +109,7 @@ total_queries = len(list(product(debiasing_prompts,gender_expressions,task_promp
 finished_queries = 0
 print(f'Total queries: {total_queries}')
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
-    df = pd.DataFrame()
+    df = pd.DataFrame(columns=columns)
     for i, pronoun_list in enumerate(gender_expressions):
         for prompt_text_base, pronoun, acronym in zip(task_prompts, pronoun_list, prompt_acronyms):
             column_name = f'{model_str}_{genders[i]}_{acronym}'
@@ -142,7 +141,7 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
                 last_token_logprob = logprobs[0, -1, last_token_id]
                 last_token_prob = math.exp(last_token_logprob.item())
                 new_row = pd.DataFrame([[debias_acronym, pronoun_list, pronoun, acronym, job, prompt, last_token_prob]], columns=columns)
-                df = pd.concat([df_prompts,new_row], ignore_index=True)
+                df = pd.concat([df,new_row], ignore_index=True)
                 df.to_csv(f'{model_str}_results_{debias_acronym}.csv')
                 finished_queries += 1
                 if finished_queries % 100 == 0:
