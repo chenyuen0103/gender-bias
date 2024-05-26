@@ -28,6 +28,11 @@ model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat1
 model.to(device)
 model.eval()  # Set the model to evaluation mode
 
+save_dir = '../data/outputs'
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+
+
 
 df = pd.read_csv('../data/inputs/female_ratios.csv')
 jobs = df['job'].to_list()
