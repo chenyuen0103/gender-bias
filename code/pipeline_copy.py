@@ -13,7 +13,7 @@ def get_logprobs(model, tokenizer, prompt):
     inputs = tokenizer(prompt, return_tensors='pt').to(model.device)
     # inputs = accelerator.prepare(inputs)
     with torch.no_grad():
-        breakpoint()
+        # breakpoint()
         outputs = model(**inputs, labels=inputs['input_ids'])
     logprobs = torch.log_softmax(outputs.logits, dim=-1)
     return logprobs, inputs['input_ids']
