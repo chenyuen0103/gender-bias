@@ -22,7 +22,9 @@ def get_logprobs(model, tokenizer, prompt):
 
 # Load the tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
-model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="auto", token=HF_TOKEN)
+model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
+                                             # device_map="auto",
+                                             token=HF_TOKEN)
 model.to(device)
 model.eval()  # Set the model to evaluation mode
 
