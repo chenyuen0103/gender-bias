@@ -13,6 +13,15 @@ model_str = 'mistral_7B_instruct'
 HF_TOKEN = os.getenv("HF_TOKEN")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
+
+# Check if a local directory with the same name exists
+if os.path.exists(model_id):
+    print(f"A local directory named '{model_id}' exists. Please rename or remove it to avoid conflicts.", flush=True)
+else:
+    print(f"No local directory named '{model_id}' exists. You should be able to download the model from Hugging Face.",Flush=True)
+
+
 # specify how to quantize the model
 # quantization_config = BitsAndBytesConfig(
 #         load_in_4bit=True,
