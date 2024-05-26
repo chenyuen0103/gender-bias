@@ -7,7 +7,7 @@ import tiktoken
 
 
 
-df = pd.read_csv('../data/female_ratios.csv')
+df = pd.read_csv('../data/inputs/female_ratios.csv')
 jobs = df['job'].to_list()
 ratios = df['female_ratio'].to_list()
 

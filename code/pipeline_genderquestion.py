@@ -7,7 +7,7 @@ import tiktoken
 
 
 
-df = pd.read_csv('../data/female_ratios.csv')
+df = pd.read_csv('../data/inputs/female_ratios.csv')
 jobs = df['job'].to_list()
 ratios = df['female_ratio'].to_list()
 
@@ -98,7 +98,7 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
                 # gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
 
                 gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
-                gender_probabilities = [0,0,0]
+                # gender_probabilities = [0,0,0]
 
                 total_prob = 0
                 for token_prob in gender_probabilities:
