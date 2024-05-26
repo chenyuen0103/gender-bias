@@ -2,13 +2,23 @@ import os
 import pandas as pd
 import torch
 import math
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from itertools import product
 
 
-model_id = "meta-llama/Meta-Llama-3-8B"
+# model_id = "meta-llama/Meta-Llama-3-8B"
+model_id = "mistralai/Mistral-7B-Instruct-v0.2"
 HF_TOKEN = os.getenv("HF_TOKEN")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# specify how to quantize the model
+quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype="torch.float16",
+)
+
+
 def get_logprobs(model, tokenizer, prompt):
     inputs = tokenizer(prompt, return_tensors='pt').to(model.device)
     # inputs = accelerator.prepare(inputs)
@@ -24,6 +34,7 @@ def get_logprobs(model, tokenizer, prompt):
 tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
                                              # device_map="auto",
+                                             quantization_config=True,
                                              token=HF_TOKEN)
 model.to(device)
 model.eval()  # Set the model to evaluation mode
