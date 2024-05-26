@@ -163,6 +163,5 @@ cython_debug/
 .idea/
 data/outputs/
 
-/data
 
 data/prompts*.csv
