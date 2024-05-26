@@ -100,7 +100,7 @@ def get_top_k_logprobs(model, tokenizer, prompt, k=10):
 
 
 
-total_queries = len(product(debiasing_prompts,gender_expressions,task_prompts,jobs))
+total_queries = len(list(product(debiasing_prompts,gender_expressions,task_prompts,jobs)))
 finished_queries = 0
 print(f'Total queries: {total_queries}')
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
