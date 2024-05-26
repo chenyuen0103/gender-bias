@@ -3,6 +3,7 @@ import pandas as pd
 import torch
 import math
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from itertools import product
 
 model_id = "meta-llama/Meta-Llama-3-8B"
 HF_TOKEN = os.getenv("HF_TOKEN")
@@ -99,6 +100,9 @@ def get_top_k_logprobs(model, tokenizer, prompt, k=10):
 
 
 
+total_queries = len(product(debiasing_prompts,gender_expressions,task_prompts,jobs))
+finished_queries = 0
+print(f'Total queries: {total_queries}')
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
     df = pd.DataFrame()
     for i, pronoun_list in enumerate(gender_expressions):
@@ -134,6 +138,9 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
                 new_row = pd.DataFrame([[debias_acronym, pronoun_list, pronoun, acronym, job, prompt, last_token_prob]], columns=columns)
                 df = pd.concat([df_prompts,new_row], ignore_index=True)
                 df.to_csv(f'{model_str}_results_{debias_acronym}.csv')
+                finished_queries += 1
+                if finished_queries % 100 == 0:
+                    print(f'Finished queries: {finished_queries}/{total_queries}')
             # df[column_name] = column_vals
     #
     # for acr in prompt_acronyms:
