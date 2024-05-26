@@ -123,7 +123,7 @@ columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', '
 
 total_queries = len(list(product(debiasing_prompts,gender_expressions,task_prompts,jobs)))
 finished_queries = 0
-print(f'Total queries: {total_queries}')
+print(f'Total queries: {total_queries}',flush=True)
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
     df = pd.DataFrame(columns=columns)
     for i, pronoun_list in enumerate(gender_expressions):
@@ -161,7 +161,7 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
                 df.to_csv(f'{model_str}_results_{debias_acronym}.csv')
                 finished_queries += 1
                 if finished_queries % 100 == 0:
-                    print(f'Finished queries: {finished_queries}/{total_queries}')
+                    print(f'Finished queries: {finished_queries}/{total_queries}',flush=True)
             # df[column_name] = column_vals
     #
     # for acr in prompt_acronyms:
