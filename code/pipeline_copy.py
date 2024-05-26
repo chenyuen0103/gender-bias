@@ -36,7 +36,7 @@ def get_logprobs(model, tokenizer, prompt):
 tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
                                              # device_map="auto",
-                                             quantization_config=True,
+                                             quantization_config=quantization_config,
                                              token=HF_TOKEN)
 model.to(device)
 model.eval()  # Set the model to evaluation mode
