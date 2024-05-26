@@ -4,10 +4,7 @@ import torch
 import math
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from itertools import product
-from accelerate import Accelerator
 
-# Initialize Accelerator
-accelerator = Accelerator()
 
 model_id = "meta-llama/Meta-Llama-3-8B"
 HF_TOKEN = os.getenv("HF_TOKEN")
@@ -26,7 +23,7 @@ def get_logprobs(model, tokenizer, prompt):
 # Load the tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
 model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="auto", token=HF_TOKEN)
-model = accelerator.prepare(model)
+model.to(device)
 model.eval()  # Set the model to evaluation mode
 
 
@@ -75,8 +72,7 @@ debiasing_acronyms = [
 
 
 model_str = 'llama3_8B'
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
+
 # create a empty prompt dataframe with columns 'debiasing_prompt_acronym',
 # 'gender_expression', 'pronoun', 'prompt_acronym', 'jobs', and 'prompt'
 columns = ['debias_acronym', 'gender_expression', 'pronoun', 'prompt_acronym', 'job','prompt', 'last_token_prob']
@@ -175,7 +171,7 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
 
 # df_prompts.to_csv('../data/prompts.csv', index=False)
 
-    df.to_csv(f'{model_str}_results_{debias_acronym}.csv')
+    df.to_csv(f'../data/outputs/{model_str}_results_{debias_acronym}.csv')
 
 
 
