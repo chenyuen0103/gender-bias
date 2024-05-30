@@ -1,0 +1,11 @@
+executable = /home/yuenchen/anaconda3/envs/llama/bin/python
+arguments = /home/yuenchen/gender-bias/code/pipeline_copy.py 
+error = /home/yuenchen/gender-bias/pipeline_copy_mistral.err
+output = /home/yuenchen/gender-bias/pipeline_copy_mistral.out
+log = /home/yuenchen/gender-bias/pipeline_copy_mistral.log
+request_memory = 16G
+request_disk = 20G
+request_cpus = 1
+request_gpus = 1
+requirements = TARGET.CUDAGlobalMemoryMb  > 16000
+queue
