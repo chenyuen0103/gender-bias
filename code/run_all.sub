@@ -9,16 +9,12 @@ request_cpus = 1
 request_gpus = 1
 requirements = TARGET.CUDAGlobalMemoryMb  > 16000
 
-type = "" "conversation_" "genderquestion_" "genderquestion_conv_"
+# Define the values for type and model, excluding "" llama3-8b and "" llama3-8b-instruct
+type = "conversation_" "genderquestion_" "genderquestion_conv_"
 model = llama3-8b llama3-8b-instruct mistral-7b mistral-7b-instruct llama2-7b llama2-7b-chat
 
+# Queue jobs for each combination of type and model
 queue type, model from (
-    "" llama3-8b
-    "" llama3-8b-instruct
-    "" mistral-7b
-    "" mistral-7b-instruct
-    "" llama2-7b
-    "" llama2-7b-chat
     conversation_ llama3-8b
     conversation_ llama3-8b-instruct
     conversation_ mistral-7b
