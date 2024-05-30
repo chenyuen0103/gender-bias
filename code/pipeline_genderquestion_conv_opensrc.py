@@ -158,7 +158,7 @@ def main(args):
         df[f'{model}_diverse'] = diverse_vals_new
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
-        df.to_csv(os.path.join(output_dir, f'{model_str}_{debias_acronym}__genderquestion_conv.csv'), index=False)
+        df.to_csv(os.path.join(output_dir, f'{model_str}_{debias_acronym}_genderquestion_conv.csv'), index=False)
         print(f"Saved {model_str}_{debias_acronym}_genderquestion_conv.csv", flush=True)
 
 

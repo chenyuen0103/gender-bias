@@ -1,11 +1,16 @@
 executable = /home/yuenchen/gender-bias/code/run_pipeline.sh
-arguments = llama3-8b-instruct
-error = /home/yuenchen/gender-bias/pipeline_test.err
-output = /home/yuenchen/gender-bias/pipeline_test.out
-log = /home/yuenchen/gender-bias/pipeline_test.log
+arguments = "" $(model)
+error = /home/yuenchen/gender-bias/pipeline_$(model).err
+output = /home/yuenchen/gender-bias/pipeline_$(model).out
+log = /home/yuenchen/gender-bias/pipeline_$(model).log
 request_memory = 16G
 request_disk = 20G
 request_cpus = 1
 request_gpus = 1
 requirements = TARGET.CUDAGlobalMemoryMb  > 16000
-queue
+
+# Define the models to run
+model = mistral-7b mistral-7b-instruct llama2-7b llama2-7b-chat
+
+# Queue jobs for each model
+queue model in mistral-7b mistral-7b-instruct llama2-7b llama2-7b-chat
