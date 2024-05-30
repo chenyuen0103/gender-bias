@@ -36,6 +36,10 @@ def setup_model(model_str):
         model = GPT2LMHeadModel.from_pretrained('gpt2')
         return model, tokenizer
 
+    HF_TOKEN = os.getenv('HF_TOKEN')
+    if not HF_TOKEN:
+        raise EnvironmentError("HF_TOKEN environment variable is not set.")
+
     if model_str == 'llama3-8b':
         model_id = "meta-llama/Meta-Llama-3-8B"
     elif model_str == 'llama3-8b-instruct':
