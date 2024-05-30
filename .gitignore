@@ -168,3 +168,5 @@ data/outputs/
 
 
 data/prompts*.csv
+
+*.sh
