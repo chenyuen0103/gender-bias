@@ -1,5 +1,5 @@
 executable = /home/yuenchen/anaconda3/envs/llama/bin/python
-arguments = /home/yuenchen/gender-bias/code/pipeline_opensrc.py
+arguments = /home/yuenchen/gender-bias/code/pipeline_opensrc.py --model_str llama3-8b
 error = /home/yuenchen/gender-bias/pipeline_copy_mistral.err
 output = /home/yuenchen/gender-bias/pipeline_copy_mistral.out
 log = /home/yuenchen/gender-bias/pipeline_copy_mistral.log
