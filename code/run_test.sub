@@ -1,0 +1,11 @@
+executable = /home/yuenchen/gender-bias/code/run_pipeline.sh
+arguments = llama3-8b-instruct
+error = /home/yuenchen/gender-bias/pipeline_test.err
+output = /home/yuenchen/gender-bias/pipeline_test.out
+log = /home/yuenchen/gender-bias/pipeline_test.log
+request_memory = 16G
+request_disk = 20G
+request_cpus = 1
+request_gpus = 1
+requirements = TARGET.CUDAGlobalMemoryMb  > 16000
+queue
