@@ -12,7 +12,7 @@ model_id = "mistralai/Mistral-7B-Instruct-v0.2"
 model_str = 'mistral_7B_instruct'
 HF_TOKEN = os.getenv("HF_TOKEN")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+# output_dir = '../data/outputs'
 
 
 # Check if a local directory with the same name exists
