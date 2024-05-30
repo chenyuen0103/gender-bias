@@ -52,12 +52,14 @@ def setup_model(model_str):
         model_id = "meta-llama/Llama-2-7b-hf"
     elif model_str == 'llama2-7b-chat':
         model_id = "meta-llama/Llama-2-7b-chat-hf"
+
     HF_TOKEN = os.getenv("HF_TOKEN")
-    tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
                                                  # device_map="auto",
                                                  # quantization_config=quantization_config,
                                                  token=HF_TOKEN)
+    tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
+
     return model, tokenizer
 
 
