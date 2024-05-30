@@ -1,18 +1,16 @@
 import pandas as pd
 import os
 import openai
-from transformers import GPT2TokenizerFast, GPT2LMHeadModel
+from transformers import GPT2TokenizerFast
 import math
-import tiktoken
-import torch
 
+openai.api_key = "<APIKEY>"
 
-
-df = pd.read_csv('../data/inputs/female_ratios.csv')
+df = pd.read_csv('female_ratios.csv')
 jobs = df['job'].to_list()
 ratios = df['female_ratio'].to_list()
 
-
+tokenizer = GPT2TokenizerFast.from_pretrained('gpt2')
 
 
 prompt_acronyms = ['met-met', 'friend', 'talk-met']
@@ -55,77 +53,50 @@ debiasing_acronyms = [
     "high-6",
 ]
 
-
-
-def get_logprobs(model, tokenizer, prompt):
-    inputs = tokenizer(prompt, return_tensors='pt').to(model.device)
-    # inputs = accelerator.prepare(inputs)
-    with torch.no_grad():
-        # breakpoint()
-        outputs = model(**inputs, labels=inputs['input_ids'])
-    logprobs = torch.log_softmax(outputs.logits, dim=-1)
-    return logprobs, inputs['input_ids']
-# model = 'text-davinci-001'
-model_str = 'gpt2'
-# Load the tokenizer and model from Hugging Face
-tokenizer = GPT2TokenizerFast.from_pretrained('gpt2')
-model = GPT2LMHeadModel.from_pretrained('gpt2')
-# if 'gpt-3.5-turbo' in model:
-#     tokenizer = tiktoken.encoding_for_model('gpt-3.5-turbo')
-# else:
-#     tokenizer = GPT2TokenizerFast.from_pretrained('gpt2')
-
+model = 'text-davinci-001'
 
 for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
     df = pd.DataFrame()
 
     for i, pronoun_list in enumerate(gender_expressions):
         for prompt_text_base, pronoun, acronym in zip(task_prompts, pronoun_list, prompt_acronyms):
-            column_name = f'{model_str}_{genders[i]}_{acronym}'
+            column_name = f'{model}_{genders[i]}_{acronym}'
             column_vals = []
             for job in jobs:
+
                 prompt_text = f"{bot_instruction} {debiasing_prompt}\n\n{pre_conversation}{prompt_text_base}".replace('[JOB]', job)
-                # if 'gpt-3.5-turbo' in model:
-                #     prompt_len = len(tokenizer.encode(prompt_text))
-                # else:
                 prompt_len = len(tokenizer(prompt_text)['input_ids'])
-                prompt = prompt_text+pronoun
+                
 
+                response = openai.Completion.create(
+                model=model,
+                prompt=prompt_text+pronoun,
+                temperature=0,
+                max_tokens=0,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0,
+                logprobs=10,
+                echo=True
+                )
 
-                # response = openai.Completion.create(
-                # model=model,
-                # prompt=prompt_text+pronoun,
-                # temperature=0,
-                # max_tokens=0,
-                # top_p=1,
-                # frequency_penalty=0,
-                # presence_penalty=0,
-                # logprobs=10,
-                # echo=True
-                # )
-
-
-
-
-                # gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
-                log_probabilities = get_logprobs(model, tokenizer, prompt)
-                gender_probabilities = log_probabilities[0][0][prompt_len:]
-
-
+                gender_probabilities = response['choices'][0]['logprobs']['token_logprobs'][prompt_len:]
+                
                 total_prob = 0
-                for token_prob in gender_probabilities[0]:
+                for token_prob in gender_probabilities:
                     total_prob += token_prob
-
-                # total_prob = math.exp(total_prob)
-                total_prob = torch.exp(total_prob)
+                
+                total_prob = math.exp(total_prob)
 
                 column_vals.append(total_prob)
+
+
             df[column_name] = column_vals
 
     for acr in prompt_acronyms:
-        male_vals = df[f'{model_str}_male_{acr}'].to_list()
-        female_vals = df[f'{model_str}_female_{acr}'].to_list()
-        diverse_vals = df[f'{model_str}_diverse_{acr}'].to_list()
+        male_vals = df[f'{model}_male_{acr}'].to_list()
+        female_vals = df[f'{model}_female_{acr}'].to_list()
+        diverse_vals = df[f'{model}_diverse_{acr}'].to_list()
 
         male_vals_new = []
         female_vals_new = []
@@ -139,12 +110,11 @@ for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronym
             male_vals_new.append(m_final)
             female_vals_new.append(f_final)
             diverse_vals_new.append(d_final)
-
+        
         df[f'{model}_male_{acr}'] = male_vals_new
         df[f'{model}_female_{acr}'] = female_vals_new
         df[f'{model}_diverse_{acr}'] = diverse_vals_new
 
 
 
-    # df.to_csv(f'{model}_results_{debias_acronym}_conversation.csv')
-df_prompts.to_csv('../data/prompts_conversation.csv', index=False)
+    df.to_csv(f'{model}_results_{debias_acronym}_conversation.csv')
