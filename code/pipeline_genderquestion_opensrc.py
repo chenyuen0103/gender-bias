@@ -6,7 +6,7 @@ import torch
 import numpy as np
 import argparse
 from itertools import product
-
+from efficiency.function import set_seed
 
 
 def get_logprobs(model, tokenizer, prompt):
@@ -58,8 +58,13 @@ def setup_model(model_str):
 
 
 def main(args):
+    set_seed(args.seed)
     input_dir = args.input_dir
     output_dir = args.output_dir
+
+    if not os.path.exists(os.path.join(output_dir, f"s{args.seed}")):
+        os.makedirs(os.path.join(output_dir, f"s{args.seed}"))
+
     model_str = args.model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model, tokenizer = setup_model(model_str)
@@ -107,7 +112,7 @@ def main(args):
         df['job'] = jobs
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):
             gender_prob = 0
-            column_name = f'{model}_{genders[i]}'
+            column_name = f' {model_str}_{genders[i]}'
             column_vals = []
             for job in jobs:
                 for pronoun in gender_exp:
@@ -130,9 +135,9 @@ def main(args):
                 column_vals.append(gender_prob)
             df[column_name] = column_vals
 
-        male_vals = df[f'{model}_male'].to_list()
-        female_vals = df[f'{model}_female'].to_list()
-        diverse_vals = df[f'{model}_diverse'].to_list()
+        male_vals = df[f' {model_str}_male'].to_list()
+        female_vals = df[f' {model_str}_female'].to_list()
+        diverse_vals = df[f' {model_str}_diverse'].to_list()
 
 
         male_vals_new = []
@@ -148,12 +153,12 @@ def main(args):
             female_vals_new.append(f_final)
             diverse_vals_new.append(d_final)
 
-        df[f'{model}_male'] = male_vals_new
-        df[f'{model}_female'] = female_vals_new
-        df[f'{model}_diverse'] = diverse_vals_new
+        df[f' {model_str}_male'] = male_vals_new
+        df[f' {model_str}_female'] = female_vals_new
+        df[f' {model_str}_diverse'] = diverse_vals_new
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
-        df.to_csv(os.path.join(output_dir, f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
+        df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
         print(f"Saved {model_str}_{debias_acronym}_genderquestion.csv", flush=True)
 
 
@@ -164,6 +169,7 @@ def parse_args():
     parser.add_argument('--model', type=str, default='gpt2',
                         choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat'],
                         help='Model name')
+    parser.add_argument('--seed', type=int, default=0, help='Random seed')
     return parser.parse_args()
 
 if __name__ == '__main__':
