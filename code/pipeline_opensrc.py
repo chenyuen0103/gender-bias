@@ -51,6 +51,10 @@ def setup_model(model_str):
         model_id = "meta-llama/Llama-2-7b-hf"
     elif model_str == 'llama2-7b-chat':
         model_id = "meta-llama/Llama-2-7b-chat-hf"
+    elif model_str == 'llama3-70b':
+        model_id = "meta-llama/Meta-Llama-3-70B"
+    elif model_str == 'llama3-70b-instruct':
+        model_id = "meta-llama/Meta-Llama-3-70B-Instruct"
 
     HF_TOKEN = os.getenv("HF_TOKEN")
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
@@ -168,7 +172,7 @@ def main(args):
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}.csv'), index=False)
-        print(f"Saved {model_str}_{debias_acronym}.csv", flush=True)
+        print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}.csv" , flush=True)
 
 
 def parse_args():
@@ -176,7 +180,7 @@ def parse_args():
     parser.add_argument('--input_dir', type=str, default='../data/inputs', help='Input directory')
     parser.add_argument('--output_dir', type=str, default='../data/outputs', help='Output directory')
     parser.add_argument('--model', type=str, default='gpt2',
-                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat'],
+                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b-instruct','llama3-70b'],
                         help='Model name')
     parser.add_argument('--seed', type=int, default=0, help='Random seed')
     return parser.parse_args()
