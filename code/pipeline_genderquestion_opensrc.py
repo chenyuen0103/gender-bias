@@ -48,10 +48,10 @@ def setup_model(model_str):
         model_id = "meta-llama/Llama-2-7b-hf"
     elif model_str == 'llama2-7b-chat':
         model_id = "meta-llama/Llama-2-7b-chat-hf"
-    elif model_str == 'llama3-70b':
-        model_id = "meta-llama/Meta-Llama-3-70B"
+    elif model_str == 'llama3-13b':
+        model_id = "meta-llama/Meta-Llama-3-13B"
     elif model_str == 'llama3-70b-instruct':
-        model_id = "meta-llama/Meta-Llama-3-70B-Instruct"
+        model_id = "meta-llama/Meta-Llama-3-13B-Instruct"
     HF_TOKEN = os.getenv("HF_TOKEN")
     tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
