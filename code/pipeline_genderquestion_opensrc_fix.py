@@ -114,13 +114,13 @@ def main(args):
     for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
         df = pd.DataFrame()
         df['job'] = jobs
+        # loop over rows of the dataframe
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):
-            column_name = f' {model_str}_{genders[i]}'
+            column_name = f'{model_str}_{genders[i]}'
             column_vals = []
             for job in jobs:
                 gender_prob = 0
                 for pronoun in gender_exp:
-
                     prompt_text = f"Q: {debiasing_prompt} {task_prompt}".replace('[JOB]', job)
 
                     prompt_len = len(tokenizer(prompt_text)['input_ids'])
@@ -139,9 +139,9 @@ def main(args):
                 column_vals.append(gender_prob)
             df[column_name] = column_vals
 
-        male_vals = df[f' {model_str}_male'].to_list()
-        female_vals = df[f' {model_str}_female'].to_list()
-        diverse_vals = df[f' {model_str}_diverse'].to_list()
+        male_vals = df[f'{model_str}_male'].to_list()
+        female_vals = df[f'{model_str}_female'].to_list()
+        diverse_vals = df[f'{model_str}_diverse'].to_list()
 
 
         male_vals_new = []
@@ -157,9 +157,9 @@ def main(args):
             female_vals_new.append(f_final)
             diverse_vals_new.append(d_final)
 
-        df[f' {model_str}_male'] = male_vals_new
-        df[f' {model_str}_female'] = female_vals_new
-        df[f' {model_str}_diverse'] = diverse_vals_new
+        df[f'{model_str}_male'] = male_vals_new
+        df[f'{model_str}_female'] = female_vals_new
+        df[f'{model_str}_diverse'] = diverse_vals_new
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
