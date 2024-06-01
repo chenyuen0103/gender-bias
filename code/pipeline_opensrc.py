@@ -75,6 +75,8 @@ def setup_model(model_str):
         model_id = "meta-llama/Meta-Llama-3-70B"
     elif model_str == 'llama3-70b-instruct':
         model_id = "meta-llama/Meta-Llama-3-70B-Instruct"
+    elif model_str == 'alpaca-7b':
+        model_id = "allenai/open-instruct-stanford-alpaca-7b"
 
     HF_TOKEN = os.getenv("HF_TOKEN")
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
@@ -206,7 +208,7 @@ def parse_args():
     parser.add_argument('--input_dir', type=str, default='../data/inputs', help='Input directory')
     parser.add_argument('--output_dir', type=str, default='../data/outputs', help='Output directory')
     parser.add_argument('--model', type=str, default='gpt2',
-                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct'],
+                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct','alpaca-7b'],
                         help='Model name')
     parser.add_argument('--seed', type=int, default=0, help='Random seed')
     return parser.parse_args()
