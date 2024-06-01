@@ -17,5 +17,4 @@ queue type, model from (
     genderquestion_ llama2-7b-chat
     genderquestion_ llama3-13b
     genderquestion_ llama3-13b-instruct
-
 )
