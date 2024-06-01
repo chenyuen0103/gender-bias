@@ -170,7 +170,7 @@ def main(args):
                     #
                     # total_prob = math.exp(total_prob)
 
-                    column_vals.append(total_prob)
+                    column_vals.append(total_prob.item())
                 df[column_name] = column_vals
 
         for acr in prompt_acronyms:
