@@ -9,12 +9,6 @@ request_cpus = 1
 request_gpus = 1
 requirements = TARGET.CUDAGlobalMemoryMb  > 16000
 queue type, model from (
-    genderquestion_ llama3-8b
-    genderquestion_ llama3-8b-instruct
-    genderquestion_ mistral-7b
-    genderquestion_ mistral-7b-instruct
-    genderquestion_ llama2-7b
-    genderquestion_ llama2-7b-chat
     genderquestion_ llama3-70b
     genderquestion_ llama3-70b-instruct
 )
