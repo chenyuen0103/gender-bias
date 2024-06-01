@@ -1,14 +1,20 @@
 executable = /home/yuenchen/gender-bias/code/run_pipeline.sh
 arguments = $(type) $(model)
-error = /home/yuenchen/gender-bias/pipeline_copy_mistral.err
-output = /home/yuenchen/gender-bias/pipeline_copy_mistral.out
-log = /home/yuenchen/gender-bias/pipeline_copy_mistral.log
+error = /home/yuenchen/gender-bias/pipeline_$(type)_$(model).err
+output = /home/yuenchen/gender-bias/pipeline_$(type)_$(model).out
+log = /home/yuenchen/gender-bias/pipeline_$(type)_$(model).log
 request_memory = 16G
 request_disk = 20G
 request_cpus = 1
 request_gpus = 1
 requirements = TARGET.CUDAGlobalMemoryMb  > 16000
 queue type, model from (
+    genderquestion_ llama3-8b
+    genderquestion_ llama3-8b-instruct
+    genderquestion_ mistral-7b
+    genderquestion_ mistral-7b-instruct
+    genderquestion_ llama2-7b
+    genderquestion_ llama2-7b-chat
     genderquestion_ llama3-70b
     genderquestion_ llama3-70b-instruct
 )

@@ -180,7 +180,7 @@ def parse_args():
     parser.add_argument('--input_dir', type=str, default='../data/inputs', help='Input directory')
     parser.add_argument('--output_dir', type=str, default='../data/outputs', help='Output directory')
     parser.add_argument('--model', type=str, default='gpt2',
-                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-13b','llama3-70b-instruct'],
+                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct'],
                         help='Model name')
     parser.add_argument('--seed', type=int, default=0, help='Random seed')
     return parser.parse_args()

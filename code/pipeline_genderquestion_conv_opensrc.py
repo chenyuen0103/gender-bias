@@ -120,12 +120,11 @@ def main(args):
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):
-            gender_prob = 0
-            column_name = f' {model_str}_{genders[i]}'
+            column_name = f'{model_str}_{genders[i]}'
             column_vals = []
             for job in jobs:
+                gender_prob = 0
                 for pronoun in gender_exp:
-
                     prompt_text = f"{bot_instruction} {debiasing_prompt}\n\n{pre_conversation} {debiasing_prompt} {task_prompt}".replace(
                         '[JOB]', job)
                     prompt_len = len(tokenizer(prompt_text)['input_ids'])
@@ -144,9 +143,9 @@ def main(args):
                 column_vals.append(gender_prob)
             df[column_name] = column_vals
 
-        male_vals = df[f' {model_str}_male'].to_list()
-        female_vals = df[f' {model_str}_female'].to_list()
-        diverse_vals = df[f' {model_str}_diverse'].to_list()
+        male_vals = df[f'{model_str}_male'].to_list()
+        female_vals = df[f'{model_str}_female'].to_list()
+        diverse_vals = df[f'{model_str}_diverse'].to_list()
 
 
         male_vals_new = []
@@ -162,9 +161,9 @@ def main(args):
             female_vals_new.append(f_final)
             diverse_vals_new.append(d_final)
 
-        df[f' {model_str}_male'] = male_vals_new
-        df[f' {model_str}_female'] = female_vals_new
-        df[f' {model_str}_diverse'] = diverse_vals_new
+        df[f'{model_str}_male'] = male_vals_new
+        df[f'{model_str}_female'] = female_vals_new
+        df[f'{model_str}_diverse'] = diverse_vals_new
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
 
@@ -177,7 +176,7 @@ def parse_args():
     parser.add_argument('--input_dir', type=str, default='../data/inputs', help='Input directory')
     parser.add_argument('--output_dir', type=str, default='../data/outputs', help='Output directory')
     parser.add_argument('--model', type=str, default='gpt2',
-                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-13b','llama3-70b-instruct'],
+                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct'],
                         help='Model name')
     parser.add_argument('--seed', type=int, default=0, help='Random seed')
     return parser.parse_args()
