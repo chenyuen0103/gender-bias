@@ -152,6 +152,7 @@ def main(args):
                     prompt_text = f"{bot_instruction} {debiasing_prompt}\n\n{pre_conversation}{prompt_text_base}".replace(
                         '[JOB]', job)
                     prompt_len = len(tokenizer(prompt_text)['input_ids'])
+                    prompt = f"{prompt_text}{pronoun}"
                     probs, input_token_ids = get_probs(model, tokenizer, prompt)
                     token_probs_of_interest = probs[0][prompt_len - 1:]
                     # Calculate the total probability
