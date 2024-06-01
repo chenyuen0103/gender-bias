@@ -1,5 +1,5 @@
-executable = /home/yuenchen/anaconda3/envs/llama/bin/python
-arguments = /home/yuenchen/gender-bias/code/pipeline_genderquestion_opensrc.py --model $(model)
+executable = /home/yuenchen/gender-bias/code/run_pipeline.sh
+arguments = $(type) $(model)
 error = /home/yuenchen/gender-bias/pipeline_copy_mistral.err
 output = /home/yuenchen/gender-bias/pipeline_copy_mistral.out
 log = /home/yuenchen/gender-bias/pipeline_copy_mistral.log
@@ -8,4 +8,14 @@ request_disk = 20G
 request_cpus = 1
 request_gpus = 1
 requirements = TARGET.CUDAGlobalMemoryMb  > 16000
-queue model in llama3-8b-instruct mistral-7b mistral-7b-instruct llama2-7b llama2-7b-chat llama3-13b llama3-13b-instruct
+queue type, model from (
+    genderquestion_ llama3-8b
+    genderquestion_ llama3-8b-instruct
+    genderquestion_ mistral-7b
+    genderquestion_ mistral-7b-instruct
+    genderquestion_ llama2-7b
+    genderquestion_ llama2-7b-chat
+    genderquestion_ llama3-13b
+    genderquestion_ llama3-13b-instruct
+
+)
