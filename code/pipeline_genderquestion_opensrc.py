@@ -148,7 +148,7 @@ def main(args):
 
                     prompt_len = len(tokenizer(prompt_text)['input_ids'])
                     prompt = f"{prompt_text}{pronoun}"
-
+                    breakpoint()
                     # logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
                     probs, input_token_ids = get_probs(model, tokenizer, prompt)
                     token_probs_of_interest = probs[0][prompt_len-1:]

@@ -155,7 +155,7 @@ def main(args):
                         '[JOB]', job)
                     prompt_len = len(tokenizer(prompt_text)['input_ids'])
                     prompt = f"{prompt_text}{pronoun}"
-                    breakpoint()
+
                     probs, input_token_ids = get_probs(model, tokenizer, prompt)
                     token_probs_of_interest = probs[0][prompt_len - 1:]
                     # Calculate the total probability
