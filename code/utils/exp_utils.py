@@ -69,6 +69,8 @@ def setup_model(model_str):
         model_id = "meta-llama/Llama-2-7b-hf"
     elif model_str == 'llama2-7b-chat':
         model_id = "meta-llama/Llama-2-7b-chat-hf"
+    elif model_str == 'llama2-7b-instruct':
+        model_id = "togethercomputer/Llama-2-7B-32K-Instruct"
     elif model_str == 'llama3-70b':
         model_id = "meta-llama/Meta-Llama-3-70B"
     elif model_str == 'llama3-70b-instruct':
