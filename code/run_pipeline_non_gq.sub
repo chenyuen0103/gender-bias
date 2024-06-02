@@ -3,11 +3,11 @@ arguments = $(type) $(model)
 error = /home/yuenchen/gender-bias/pipeline_$(type)$(model).err
 output = /home/yuenchen/gender-bias/pipeline_$(type)$(model).out
 log = /home/yuenchen/gender-bias/pipeline_$(type)$(model).log
-request_memory = 32G
+request_memory = 64G
 request_disk = 40G
 request_cpus = 1
 request_gpus = 1
-requirements = TARGET.CUDAGlobalMemoryMb  > 32000
+requirements = TARGET.CUDAGlobalMemoryMb  > 64000
 queue type, model from (
     conversation_ llama3-70b
     genderquestion_ llama3-70b
