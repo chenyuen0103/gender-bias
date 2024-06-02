@@ -12,5 +12,4 @@ queue type, model from (
     conversation_ alpaca-7b
     genderquestion_ alpaca-7b
     genderquestion_conv_ alpaca-7b
-
 )
