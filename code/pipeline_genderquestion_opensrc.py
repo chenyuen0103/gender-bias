@@ -7,90 +7,77 @@ import numpy as np
 import argparse
 from itertools import product
 from efficiency.function import set_seed
+from utils.exp_utils import get_probs, setup_model
 
 
-def get_logprobs(model, tokenizer, prompt):
-    # Tokenize the prompt and convert to PyTorch tensors
-    device = model.device
-    inputs = tokenizer(prompt, return_tensors='pt').to(device)
 
-    # Perform a forward pass through the model without computing gradients
-    with torch.no_grad():
-        outputs = model(**inputs, labels=inputs['input_ids'])
-
-    # Compute log-probabilities of the token predictions
-    logprobs = torch.log_softmax(outputs.logits, dim=-1)
-
-    # Extract the log-probabilities of the input tokens
-    input_token_ids = inputs['input_ids']
-    token_logprobs = logprobs.gather(-1, input_token_ids.unsqueeze(-1)).squeeze(-1)
-
-    return token_logprobs, input_token_ids
-
-
-def get_probs(model, tokenizer, prompt):
-    # Tokenize the prompt and convert to PyTorch tensors
-    device = model.device
-    inputs = tokenizer(prompt, return_tensors='pt').to(device)
-
-    # Perform a forward pass through the model without computing gradients
-    with torch.no_grad():
-        outputs = model(**inputs)
-
-    # Get logits and apply softmax to get probabilities
-    logits = outputs.logits
-    probs = torch.softmax(logits, dim=-1)
-
-    # Shift logits and labels to align them
-    shift_probs = probs[:, :-1, :].contiguous()
-    shift_input_ids = inputs['input_ids'][:, 1:].contiguous()
-
-    # Gather the probabilities corresponding to the actual next tokens
-    next_token_probs = shift_probs.gather(-1, shift_input_ids.unsqueeze(-1)).squeeze(-1)
-
-    return next_token_probs, shift_input_ids
-
-def setup_model(model_str):
-    # Load the tokenizer and model from Hugging Face
-    if model_str == 'gpt2':
-        tokenizer = GPT2TokenizerFast.from_pretrained('gpt2')
-        model = GPT2LMHeadModel.from_pretrained('gpt2')
-        return model, tokenizer
-
-    if model_str == 'llama3-8b':
-        model_id = "meta-llama/Meta-Llama-3-8B"
-    elif model_str == 'llama3-8b-instruct':
-        model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
-    elif model_str == 'mistral-7b':
-        model_id = "mistralai/Mistral-7B-v0.3"
-    elif model_str == 'mistral-7b-instruct':
-        model_id = "mistralai/Mistral-7B-Instruct-v0.3"
-    elif model_str == 'llama2-7b':
-        model_id = "meta-llama/Llama-2-7b-hf"
-    elif model_str == 'llama2-7b-chat':
-        model_id = "meta-llama/Llama-2-7b-chat-hf"
-    elif model_str == 'llama3-70b':
-        model_id = "meta-llama/Meta-Llama-3-70B"
-    elif model_str == 'llama3-70b-instruct':
-        model_id = "meta-llama/Meta-Llama-3-70B-Instruct"
-    elif model_str == 'alpaca-7b':
-        model_id = "allenai/open-instruct-stanford-alpaca-7b"
-    HF_TOKEN = os.getenv("HF_TOKEN")
-    tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
-    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
-                                                 # device_map="auto",
-                                                 # quantization_config=quantization_config,
-                                                 token=HF_TOKEN)
-    return model, tokenizer
+# def get_probs(model, tokenizer, prompt):
+#     # Tokenize the prompt and convert to PyTorch tensors
+#     device = model.device
+#     inputs = tokenizer(prompt, return_tensors='pt').to(device)
+#
+#     # Perform a forward pass through the model without computing gradients
+#     with torch.no_grad():
+#         outputs = model(**inputs)
+#
+#     # Get logits and apply softmax to get probabilities
+#     logits = outputs.logits
+#     probs = torch.softmax(logits, dim=-1)
+#
+#     # Shift logits and labels to align them
+#     shift_probs = probs[:, :-1, :].contiguous()
+#     shift_input_ids = inputs['input_ids'][:, 1:].contiguous()
+#
+#     # Gather the probabilities corresponding to the actual next tokens
+#     next_token_probs = shift_probs.gather(-1, shift_input_ids.unsqueeze(-1)).squeeze(-1)
+#
+#     return next_token_probs, shift_input_ids
+#
+# def setup_model(model_str):
+#     # Load the tokenizer and model from Hugging Face
+#     if model_str == 'gpt2':
+#         tokenizer = GPT2TokenizerFast.from_pretrained('gpt2')
+#         model = GPT2LMHeadModel.from_pretrained('gpt2')
+#         return model, tokenizer
+#
+#     if model_str == 'llama3-8b':
+#         model_id = "meta-llama/Meta-Llama-3-8B"
+#     elif model_str == 'llama3-8b-instruct':
+#         model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
+#     elif model_str == 'mistral-7b':
+#         model_id = "mistralai/Mistral-7B-v0.3"
+#     elif model_str == 'mistral-7b-instruct':
+#         model_id = "mistralai/Mistral-7B-Instruct-v0.3"
+#     elif model_str == 'llama2-7b':
+#         model_id = "meta-llama/Llama-2-7b-hf"
+#     elif model_str == 'llama2-7b-chat':
+#         model_id = "meta-llama/Llama-2-7b-chat-hf"
+#     elif model_str == 'llama3-70b':
+#         model_id = "meta-llama/Meta-Llama-3-70B"
+#     elif model_str == 'llama3-70b-instruct':
+#         model_id = "meta-llama/Meta-Llama-3-70B-Instruct"
+#     elif model_str == 'alpaca-7b':
+#         model_id = "allenai/open-instruct-stanford-alpaca-7b"
+#     HF_TOKEN = os.getenv("HF_TOKEN")
+#     tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
+#     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
+#                                                  # device_map="auto",
+#                                                  # quantization_config=quantization_config,
+#                                                  token=HF_TOKEN)
+#     return model, tokenizer
 
 
 def main(args):
     set_seed(args.seed)
     input_dir = args.input_dir
     output_dir = args.output_dir
+    output_verbose_dir = args.output_verbose_dir
 
     if not os.path.exists(os.path.join(output_dir, f"s{args.seed}")):
         os.makedirs(os.path.join(output_dir, f"s{args.seed}"))
+
+    if not os.path.exists(os.path.join(output_verbose_dir, f"s{args.seed}")):
+        os.makedirs(os.path.join(output_verbose_dir, f"s{args.seed}"))
 
     model_str = args.model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -134,6 +121,18 @@ def main(args):
         "high-6",
     ]
 
+    debiasing_acronyms_map = {
+        "none":0,
+        "low-1":1,
+        "low-2":2,
+        "medium-3":3,
+        "medium-4":4,
+        "high-5":5,
+        "high-6":6,
+    }
+
+    columns = ['model', 'conversation','job','prompt_id', 'debiasing_id', 'gender','prompt_text', 'pronoun', 'query', 'pronoun_prob']
+    verbose_rows = []
     for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
         df = pd.DataFrame()
         df['job'] = jobs
@@ -168,6 +167,18 @@ def main(args):
                     #
                     # total_prob = math.exp(total_prob)
                     gender_prob += total_prob
+                    row = {'model': model_str,
+                           'conversation': False,
+                           'job': job,
+                           'prompt_id': 1,
+                           'debiasing_id': debiasing_acronyms_map[debias_acronym],
+                           'gender': genders[i],
+                           'prompt_text': prompt_text,
+                           'pronoun': pronoun.strip(),
+                           'query': prompt,
+                           'pronoun_prob': total_prob.item()
+                           }
+                    verbose_rows.append(row)
                 column_vals.append(gender_prob.item())
             df[column_name] = column_vals
 
@@ -189,19 +200,28 @@ def main(args):
             female_vals_new.append(f_final)
             diverse_vals_new.append(d_final)
 
+        df[f'{model_str}_male_prob'] = male_vals
+        df[f'{model_str}_female_prob'] = female_vals
+        df[f'{model_str}_diverse_prob'] = diverse_vals
+
         df[f' {model_str}_male'] = male_vals_new
         df[f' {model_str}_female'] = female_vals_new
         df[f' {model_str}_diverse'] = diverse_vals_new
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
+        df_verbose = pd.DataFrame(verbose_rows)
         print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
+        df_verbose = pd.DataFrame(verbose_rows, columns=columns)
+        df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'genderquestion_verbose.csv'), index=False)
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_dir', type=str, default='../data/inputs', help='Input directory')
     parser.add_argument('--output_dir', type=str, default='../data/outputs', help='Output directory')
+    parser.add_argument('--output_verbose_dir', type=str, default='../data/outputs_verbose',
+                        help='Verbose output directory')
     parser.add_argument('--model', type=str, default='gpt2',
                         choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct','alpaca-7b'],
                         help='Model name')

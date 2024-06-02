@@ -162,6 +162,7 @@ cython_debug/
 
 .idea/
 data/outputs/
+data/outputs_verbose/
 data/results/
 *.err
 *.out
