@@ -14,11 +14,5 @@ queue type, model from (
     genderquestion_ mistral-7b
     genderquestion_ mistral-7b-instruct
     genderquestion_ llama2-7b
-    genderquestion_ llama2-7b-chat
-    genderquestion_conv_ llama3-8b
-    genderquestion_conv_ llama3-8b-instruct
-    genderquestion_conv_ mistral-7b
-    genderquestion_conv_ mistral-7b-instruct
-    genderquestion_conv_ llama2-7b
-    genderquestion_conv_ llama2-7b-chat
+    genderquestion_ llama2-7b-instruct
 )
