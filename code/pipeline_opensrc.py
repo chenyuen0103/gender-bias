@@ -202,6 +202,7 @@ def main(args):
                     #     total_prob += token_prob
                     #
                     # total_prob = math.exp(total_prob)
+                    breakpoint()
                     row = {'model': model_str,
                            'conversation': False,
                            'job': job,
