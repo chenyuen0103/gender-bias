@@ -202,7 +202,7 @@ def main(args):
                     #     total_prob += token_prob
                     #
                     # total_prob = math.exp(total_prob)
-                    if not isinstance(total_prob):
+                    if not isinstance(total_prob, torch.Tensor):
                         breakpoint()
                         print(f"Error: {total_prob}")
                     row = {'model': model_str,
