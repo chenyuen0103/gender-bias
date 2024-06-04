@@ -118,12 +118,13 @@ def get_top_k(model, tokenizer, prompt, top_k=10):
     List of tuples containing top tokens and their probabilities.
     """
 
-    # Tokenize the input prompt
-    input_ids = tokenizer(prompt, return_tensors='pt').input_ids
+    # Tokenize the prompt and convert to PyTorch tensors
+    device = model.device
+    inputs = tokenizer(prompt, return_tensors='pt').to(device)
 
-    # Get the model outputs
+    # Perform a forward pass through the model without computing gradients
     with torch.no_grad():
-        outputs = model(input_ids)
+        outputs = model(**inputs)
 
     # Get the logits for the last token
     logits = outputs.logits[:, -1, :]
