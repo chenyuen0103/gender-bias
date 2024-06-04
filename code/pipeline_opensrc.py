@@ -202,7 +202,9 @@ def main(args):
                     #     total_prob += token_prob
                     #
                     # total_prob = math.exp(total_prob)
-                    breakpoint()
+                    if not isinstance(total_prob):
+                        breakpoint()
+                        print(f"Error: {total_prob}")
                     row = {'model': model_str,
                            'conversation': False,
                            'job': job,
