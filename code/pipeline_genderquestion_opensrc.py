@@ -185,8 +185,7 @@ def main(args):
                     #
                     # total_prob = math.exp(total_prob)
                     gender_prob += total_prob
-                    if gender == 'diverse':
-                        breakpoint()
+
                     row = {'model': model_str,
                            'conversation': False,
                            'job': job,
