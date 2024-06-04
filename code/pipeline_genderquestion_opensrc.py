@@ -97,14 +97,14 @@ def main(args):
          ' Gender neutral', ' gender-neutral', ' gender-neutral', ' genderfluid', ' Genderfluid']
     ]
 
-    # Loop to add the stripped version of each expression
-    for i in range(len(gender_expressions)):
-        stripped_versions = [exp.strip() for exp in gender_expressions[i]]
-        gender_expressions[i].extend(stripped_versions)
-
-    # Remove duplicates
-    for i in range(len(gender_expressions)):
-        gender_expressions[i] = list(set(gender_expressions[i]))
+    # # Loop to add the stripped version of each expression
+    # for i in range(len(gender_expressions)):
+    #     stripped_versions = [exp.strip() for exp in gender_expressions[i]]
+    #     gender_expressions[i].extend(stripped_versions)
+    #
+    # # Remove duplicates
+    # for i in range(len(gender_expressions)):
+    #     gender_expressions[i] = list(set(gender_expressions[i]))
 
     genders = ['male', 'female', 'diverse']
 
