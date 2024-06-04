@@ -11,6 +11,5 @@ requirements = TARGET.CUDAGlobalMemoryMb  > 16000
 
 
 # Queue jobs for each model
-queue model in llama2-7b llama2-7b-instruct mistral-7b mistral-7b-instruct
-
+queue model in llama2-7b llama2-7b-instruct mistral-7b mistral-7b-instruct llama-3b llama-3b-instruct
 
