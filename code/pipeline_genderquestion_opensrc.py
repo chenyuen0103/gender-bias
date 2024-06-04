@@ -164,6 +164,7 @@ def main(args):
                     log_probs_of_interest = logprobs[0][prompt_len - 1:]
                     mean_log_prob = log_probs_of_interest.mean()
                     total_prob = torch.exp(mean_log_prob).item()
+                    breakpoint()
 
 
 
