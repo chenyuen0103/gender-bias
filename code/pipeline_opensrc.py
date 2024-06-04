@@ -7,7 +7,7 @@ import numpy as np
 import argparse
 from itertools import product
 from efficiency.function import set_seed
-from utils.exp_utils import setup_model, get_probs, get_top_k
+from utils.exp_utils import setup_model, get_probs, get_top_k, get_logprobs
 
 # def get_logprobs(model, tokenizer, prompt):
 #     # Tokenize the prompt and convert to PyTorch tensors
@@ -186,26 +186,20 @@ def main(args):
                     prompt = f"Q: {debiasing_prompt} {prompt_text}{pronoun}"
                     prompt_len = len(tokenizer(f"Q: {debiasing_prompt} {prompt_text}")['input_ids'])
 
-                    probs, input_token_ids = get_probs(model, tokenizer, prompt)
-                    token_probs_of_interest = probs[0][prompt_len - 1:]
-                    # Calculate the total probability
-                    total_prob = 1
-                    for token_prob in token_probs_of_interest:
-                        total_prob *= token_prob
-                    # logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
+                    # probs, input_token_ids = get_probs(model, tokenizer, prompt)
+                    # token_probs_of_interest = probs[0][prompt_len - 1:]
+                    # # Calculate the total probability
+                    # total_prob = 1
+                    # for token_prob in token_probs_of_interest:
+                    #     total_prob *= token_prob
+                    logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
+                    # probs, input_token_ids = get_probs(model, tokenizer, prompt)
+                    # token_probs_of_interest = probs[0][prompt_len-1:]
+                    log_probs_of_interest = logprobs[0][prompt_len - 1:]
+                    mean_log_prob = log_probs_of_interest.mean()
+                    total_prob = torch.exp(mean_log_prob).item()
 
-                    # Extract log probabilities for the tokens of interest
-                    # gender_probabilities = logprobs[0][prompt_len:]
 
-                    # total_prob = 0
-                    # for token_prob in gender_probabilities:
-                    #     total_prob += token_prob
-                    #
-                    # total_prob = math.exp(total_prob)
-                    if not isinstance(total_prob, torch.Tensor):
-                        breakpoint()
-                        print(f"Error: {total_prob}")
-                    breakpoint()
                     row = {'model': model_str,
                            'conversation': False,
                            'job': job,
@@ -215,12 +209,12 @@ def main(args):
                            'prompt_text': prompt_text,
                            'pronoun': pronoun,
                            'query': prompt,
-                           'pronoun_prob': total_prob.item()
+                           'pronoun_prob': total_prob
                            }
                     verbose_rows.append(row)
 
 
-                    column_vals.append(total_prob.item())
+                    column_vals.append(total_prob)
                 df[column_name] = column_vals
 
         for acr in prompt_acronyms:

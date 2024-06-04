@@ -161,7 +161,10 @@ def main(args):
                     # probs, input_token_ids = get_probs(model, tokenizer, prompt)
                     # token_probs_of_interest = probs[0][prompt_len-1:]
                     log_probs_of_interest = logprobs[0][prompt_len - 1:]
-                    total_prob = log_probs_of_interest.mean().item()
+                    mean_log_prob = log_probs_of_interest.mean()
+                    total_prob = torch.exp(mean_log_prob).item()
+
+
 
 
                     # total_prob = torch.exp(torch.log(token_probs_of_interest).mean()).item()
