@@ -90,8 +90,8 @@ def main(args):
     ratios = df['female_ratio'].to_list()
 
     gender_expressions = [
-        [' Male', ' male', ' Man', ' man'],
-        [' Female', ' female', ' Woman', ' woman'],
+        [' Male', ' male', ' Man', ' man', ' He', ' he', ' Him', ' him'],
+        [' Female', ' female', ' Woman', ' woman', ' She', ' she', ' Her', ' her'],
         [' Neutral', ' neutral', ' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' Genderless', ' genderless',
          ' Non conforming', ' non conforming', ' Non-conforming', ' non-conforming', ' gender neutral',
          ' Gender neutral', ' gender-neutral', ' gender-neutral', ' genderfluid', ' Genderfluid']
