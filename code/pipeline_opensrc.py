@@ -7,7 +7,7 @@ import numpy as np
 import argparse
 from itertools import product
 from efficiency.function import set_seed
-from utils.exp_utils import setup_model, get_probs
+from utils.exp_utils import setup_model, get_probs, get_top_k
 
 # def get_logprobs(model, tokenizer, prompt):
 #     # Tokenize the prompt and convert to PyTorch tensors

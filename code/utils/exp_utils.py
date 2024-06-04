@@ -103,3 +103,41 @@ def get_logprobs(model, tokenizer, prompt):
 
     return token_logprobs, input_token_ids
 
+
+def get_top_k(model, tokenizer, prompt, top_k=10):
+    """
+    Get the top K tokens with their probabilities given a model, tokenizer, and prompt.
+
+    Args:
+    model: The pre-trained language model.
+    tokenizer: The tokenizer associated with the model.
+    prompt: The input prompt (string).
+    top_k: The number of top tokens to retrieve (default is 10).
+
+    Returns:
+    List of tuples containing top tokens and their probabilities.
+    """
+
+    # Tokenize the input prompt
+    input_ids = tokenizer(prompt, return_tensors='pt').input_ids
+
+    # Get the model outputs
+    with torch.no_grad():
+        outputs = model(input_ids)
+
+    # Get the logits for the last token
+    logits = outputs.logits[:, -1, :]
+
+    # Apply softmax to get probabilities
+    probs = torch.softmax(logits, dim=-1)
+
+    # Get the top K tokens with their probabilities
+    top_probs, top_indices = torch.topk(probs, top_k)
+
+    # Convert token indices to tokens
+    top_tokens = tokenizer.convert_ids_to_tokens(top_indices[0].tolist())
+
+    # Prepare the list of tuples (token, probability)
+    top_k_tokens_with_probs = [(token, prob.item()) for token, prob in zip(top_tokens, top_probs[0])]
+
+    return top_k_tokens_with_probs

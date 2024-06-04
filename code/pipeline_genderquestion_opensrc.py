@@ -7,7 +7,7 @@ import numpy as np
 import argparse
 from itertools import product
 from efficiency.function import set_seed
-from utils.exp_utils import get_probs, setup_model
+from utils.exp_utils import get_probs, setup_model, get_top_k
 
 
 
