@@ -7,7 +7,7 @@ import numpy as np
 import argparse
 from itertools import product
 from efficiency.function import set_seed
-from utils.exp_utils import get_probs, setup_model, get_top_k
+from utils.exp_utils import get_probs, setup_model, get_top_k, get_logprobs
 
 
 
@@ -157,14 +157,20 @@ def main(args):
                     prompt_len = len(tokenizer(prompt_text)['input_ids'])
                     prompt = f"{prompt_text}{pronoun}"
                     # breakpoint()
-                    # logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
-                    probs, input_token_ids = get_probs(model, tokenizer, prompt)
-                    token_probs_of_interest = probs[0][prompt_len-1:]
+                    logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
+                    # probs, input_token_ids = get_probs(model, tokenizer, prompt)
+                    # token_probs_of_interest = probs[0][prompt_len-1:]
+                    log_probs_of_interest = logprobs[0][prompt_len - 1:]
+                    total_prob = log_probs_of_interest.mean().item()
+
+
+                    # total_prob = torch.exp(torch.log(token_probs_of_interest).mean()).item()
+
 
                     # Calculate the total probability
-                    total_prob = 1
-                    for token_prob in token_probs_of_interest:
-                        total_prob *= token_prob
+                    # total_prob = 1
+                    # for token_prob in token_probs_of_interest:
+                    #     total_prob *= token_prob
 
 
                     # # Extract log probabilities for the tokens of interest
@@ -187,10 +193,10 @@ def main(args):
                            'prompt_text': prompt_text,
                            'pronoun': pronoun,
                            'query': prompt,
-                           'pronoun_prob': total_prob.item()
+                           'pronoun_prob': total_prob
                            }
                     verbose_rows.append(row)
-                column_vals.append(gender_prob.item())
+                column_vals.append(gender_prob)
             df[column_name] = column_vals
 
         male_vals = df[f'{model_str}_male'].to_list()

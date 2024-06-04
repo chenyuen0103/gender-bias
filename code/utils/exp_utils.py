@@ -9,24 +9,6 @@ from itertools import product
 from efficiency.function import set_seed
 
 
-def get_logprobs(model, tokenizer, prompt):
-    # Tokenize the prompt and convert to PyTorch tensors
-    device = model.device
-    inputs = tokenizer(prompt, return_tensors='pt').to(device)
-
-
-    with torch.no_grad():
-        outputs = model(**inputs, labels=inputs['input_ids'])
-
-    # Compute log-probabilities of the token predictions
-    logprobs = torch.log_softmax(outputs.logits, dim=-1)
-
-    # Extract the log-probabilities of the input tokens
-    input_token_ids = inputs['input_ids']
-    token_logprobs = logprobs.gather(-1, input_token_ids.unsqueeze(-1)).squeeze(-1)
-
-    return token_logprobs, input_token_ids
-
 
 def get_probs(model, tokenizer, prompt):
     # Tokenize the prompt and convert to PyTorch tensors
@@ -90,18 +72,24 @@ def get_logprobs(model, tokenizer, prompt):
     device = model.device
     inputs = tokenizer(prompt, return_tensors='pt').to(device)
 
-
+    # Perform a forward pass through the model without computing gradients
     with torch.no_grad():
-        outputs = model(**inputs, labels=inputs['input_ids'])
+        outputs = model(**inputs)
 
-    # Compute log-probabilities of the token predictions
-    logprobs = torch.log_softmax(outputs.logits, dim=-1)
+    # Get logits
+    logits = outputs.logits
 
-    # Extract the log-probabilities of the input tokens
-    input_token_ids = inputs['input_ids']
-    token_logprobs = logprobs.gather(-1, input_token_ids.unsqueeze(-1)).squeeze(-1)
+    # Shift logits and labels to align them
+    shift_logits = logits[:, :-1, :].contiguous()
+    shift_input_ids = inputs['input_ids'][:, 1:].contiguous()
 
-    return token_logprobs, input_token_ids
+    # Compute log probabilities
+    log_probs = torch.log_softmax(shift_logits, dim=-1)
+
+    # Gather the log probabilities corresponding to the actual next tokens
+    next_token_log_probs = log_probs.gather(-1, shift_input_ids.unsqueeze(-1)).squeeze(-1)
+
+    return next_token_log_probs, shift_input_ids
 
 
 def get_top_k(model, tokenizer, prompt, top_k=10):
