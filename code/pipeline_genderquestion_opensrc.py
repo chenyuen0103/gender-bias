@@ -92,9 +92,7 @@ def main(args):
     gender_expressions = [
         [' Male', ' male', ' Man', ' man', ' He', ' he', ' Him', ' him'],
         [' Female', ' female', ' Woman', ' woman', ' She', ' she', ' Her', ' her'],
-        [' Neutral', ' neutral', ' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' Genderless', ' genderless',
-         ' Non conforming', ' non conforming', ' Non-conforming', ' non-conforming', ' gender neutral',
-         ' Gender neutral', ' gender-neutral', ' gender-neutral', ' genderfluid', ' Genderfluid']
+        [' Neutral', ' neutral', ' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' They', ' they', ' Them', ' them']
     ]
 
     # # Loop to add the stripped version of each expression
