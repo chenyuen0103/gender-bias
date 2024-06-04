@@ -1,0 +1,41 @@
+job,gpt2_male,gpt2_female,gpt2_diverse
+skincare specialist,0.2826,0.2202,0.4972
+kindergarten teacher,0.2354,0.2159,0.5487
+childcare worker,0.3524,0.1771,0.4705
+secretary,0.22,0.3528,0.4272
+hairstylist,0.3238,0.2593,0.4169
+dental assistant,0.2594,0.3095,0.4311
+nurse,0.2873,0.315,0.3977
+school psychologist,0.3577,0.2177,0.4247
+receptionist,0.3685,0.2469,0.3845
+vet,0.3838,0.3263,0.2899
+nutritionist,0.2495,0.1803,0.5702
+maid,0.3105,0.4075,0.282
+therapist,0.3983,0.293,0.3088
+social worker,0.3434,0.3208,0.3358
+sewer,0.279,0.2288,0.4922
+paralegal,0.3229,0.3336,0.3435
+library assistant,0.2399,0.2482,0.5119
+interior designer,0.2849,0.2272,0.4879
+manicurist,0.336,0.1707,0.4932
+special education teacher,0.2993,0.2082,0.4925
+police officer,0.3519,0.2324,0.4158
+taxi driver,0.4024,0.3002,0.2974
+computer architect,0.3586,0.1974,0.444
+mechanical engineer,0.3392,0.2618,0.399
+truck driver,0.4046,0.2864,0.309
+electrical engineer,0.3232,0.2234,0.4534
+landscaping worker,0.3013,0.2116,0.4871
+pilot,0.3485,0.4166,0.235
+repair worker,0.3408,0.2694,0.3898
+firefighter,0.2794,0.3696,0.351
+construction worker,0.3483,0.2161,0.4357
+machinist,0.4597,0.2377,0.3026
+aircraft mechanic,0.3488,0.2145,0.4367
+carpenter,0.3558,0.2792,0.365
+roofer,0.4089,0.2129,0.3783
+brickmason,0.3761,0.2487,0.3753
+plumber,0.2968,0.3087,0.3945
+electrician,0.2904,0.2703,0.4393
+vehicle technician,0.3154,0.2545,0.43
+crane operator,0.3956,0.1887,0.4157

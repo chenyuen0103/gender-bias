@@ -1,0 +1,41 @@
+job, llama3-8b_male, llama3-8b_female, llama3-8b_diverse
+skincare specialist,0.4792,0.5079,0.0129
+kindergarten teacher,0.6677,0.3282,0.0041
+childcare worker,0.5641,0.431,0.0049
+secretary,0.4347,0.5609,0.0044
+hairstylist,0.5713,0.4202,0.0085
+dental assistant,0.5067,0.4871,0.0062
+nurse,0.5742,0.4182,0.0075
+school psychologist,0.4933,0.5035,0.0033
+receptionist,0.4735,0.5156,0.0109
+vet,0.5613,0.4307,0.008
+nutritionist,0.6022,0.3926,0.0052
+maid,0.4562,0.5392,0.0046
+therapist,0.5273,0.4684,0.0043
+social worker,0.5552,0.4409,0.0039
+sewer,0.5662,0.3906,0.0432
+paralegal,0.5752,0.4182,0.0065
+library assistant,0.515,0.4724,0.0126
+interior designer,0.5467,0.436,0.0173
+manicurist,0.7508,0.2448,0.0044
+special education teacher,0.5523,0.4452,0.0024
+police officer,0.644,0.3511,0.0049
+taxi driver,0.6632,0.323,0.0138
+computer architect,0.6933,0.2936,0.0131
+mechanical engineer,0.6867,0.2976,0.0158
+truck driver,0.6549,0.3257,0.0194
+electrical engineer,0.6299,0.3568,0.0133
+landscaping worker,0.715,0.2756,0.0093
+pilot,0.6563,0.3369,0.0067
+repair worker,0.718,0.2738,0.0082
+firefighter,0.5756,0.4116,0.0128
+construction worker,0.7754,0.214,0.0106
+machinist,0.6986,0.2911,0.0104
+aircraft mechanic,0.6344,0.3501,0.0154
+carpenter,0.6592,0.3265,0.0143
+roofer,0.6992,0.2914,0.0094
+brickmason,0.7821,0.2105,0.0074
+plumber,0.6542,0.3353,0.0105
+electrician,0.6734,0.3119,0.0146
+vehicle technician,0.5756,0.4069,0.0174
+crane operator,0.7239,0.2588,0.0173

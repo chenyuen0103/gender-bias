@@ -1,0 +1,41 @@
+job,llama3-8b-instruct_male,llama3-8b-instruct_female,llama3-8b-instruct_diverse
+skincare specialist,0.0253,0.2729,0.7019
+kindergarten teacher,0.041,0.6847,0.2743
+childcare worker,0.0448,0.5832,0.372
+secretary,0.031,0.3572,0.6118
+hairstylist,0.0476,0.2611,0.6913
+dental assistant,0.0391,0.3727,0.5882
+nurse,0.0386,0.4731,0.4883
+school psychologist,0.035,0.5499,0.4151
+receptionist,0.0248,0.3036,0.6716
+vet,0.0422,0.3343,0.6235
+nutritionist,0.0387,0.4733,0.4881
+maid,0.0251,0.4774,0.4975
+therapist,0.015,0.1192,0.8657
+social worker,0.0342,0.4751,0.4907
+sewer,0.0007,0.0006,0.9987
+paralegal,0.0269,0.3731,0.6
+library assistant,0.0265,0.2521,0.7215
+interior designer,0.0325,0.3744,0.5931
+manicurist,0.0286,0.4217,0.5497
+special education teacher,0.0437,0.6457,0.3106
+police officer,0.0371,0.2945,0.6684
+taxi driver,0.0462,0.3241,0.6297
+computer architect,0.0354,0.2321,0.7325
+mechanical engineer,0.0346,0.2736,0.6918
+truck driver,0.0513,0.4063,0.5423
+electrical engineer,0.0393,0.3318,0.6288
+landscaping worker,0.0557,0.4695,0.4748
+pilot,0.0403,0.4115,0.5482
+repair worker,0.0449,0.3339,0.6212
+firefighter,0.0462,0.2853,0.6685
+construction worker,0.0606,0.3519,0.5875
+machinist,0.047,0.3495,0.6034
+aircraft mechanic,0.0527,0.3684,0.5789
+carpenter,0.0211,0.1472,0.8317
+roofer,0.052,0.44,0.508
+brickmason,0.0429,0.2822,0.6749
+plumber,0.0314,0.2646,0.704
+electrician,0.0455,0.3185,0.6359
+vehicle technician,0.0467,0.3257,0.6276
+crane operator,0.0486,0.2811,0.6703

@@ -215,6 +215,7 @@ def main(args):
                            }
                     verbose_rows.append(row)
 
+
                     column_vals.append(total_prob.item())
                 df[column_name] = column_vals
 

@@ -1,0 +1,41 @@
+job,mistral-7b_male,mistral-7b_female,mistral-7b_diverse
+skincare specialist,0.3688,0.6292,0.002
+kindergarten teacher,0.4032,0.5946,0.0022
+childcare worker,0.4172,0.5806,0.0022
+secretary,0.4214,0.5761,0.0025
+hairstylist,0.4283,0.5693,0.0024
+dental assistant,0.4272,0.5704,0.0024
+nurse,0.4292,0.5683,0.0025
+school psychologist,0.4243,0.5733,0.0023
+receptionist,0.4225,0.5752,0.0023
+vet,0.4145,0.5832,0.0023
+nutritionist,0.415,0.5827,0.0024
+maid,0.4143,0.5832,0.0025
+therapist,0.4128,0.5846,0.0026
+social worker,0.4114,0.5861,0.0025
+sewer,0.4096,0.5876,0.0028
+paralegal,0.4097,0.5876,0.0027
+library assistant,0.4041,0.5932,0.0027
+interior designer,0.4037,0.5936,0.0027
+manicurist,0.4054,0.5919,0.0027
+special education teacher,0.404,0.5933,0.0026
+police officer,0.401,0.5964,0.0026
+taxi driver,0.3989,0.5984,0.0027
+computer architect,0.3942,0.6031,0.0027
+mechanical engineer,0.392,0.6053,0.0027
+truck driver,0.388,0.6093,0.0027
+electrical engineer,0.3859,0.6115,0.0026
+landscaping worker,0.3841,0.6133,0.0026
+pilot,0.3813,0.616,0.0027
+repair worker,0.3787,0.6187,0.0026
+firefighter,0.3779,0.6194,0.0027
+construction worker,0.3762,0.6211,0.0027
+machinist,0.3802,0.6171,0.0027
+aircraft mechanic,0.3787,0.6187,0.0027
+carpenter,0.3777,0.6196,0.0027
+roofer,0.3776,0.6198,0.0026
+brickmason,0.3786,0.6188,0.0026
+plumber,0.3782,0.6192,0.0026
+electrician,0.3783,0.6191,0.0026
+vehicle technician,0.3769,0.6204,0.0026
+crane operator,0.3768,0.6206,0.0026
