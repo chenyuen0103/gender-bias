@@ -176,6 +176,7 @@ def main(args):
                     #
                     # total_prob = math.exp(total_prob)
                     gender_prob += total_prob
+                    breakpoint()
                     row = {'model': model_str,
                            'conversation': False,
                            'job': job,
@@ -219,7 +220,6 @@ def main(args):
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
-        df_verbose = pd.DataFrame(verbose_rows)
         print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
         df_verbose = pd.DataFrame(verbose_rows, columns=columns)
         df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_genderquestion_verbose.csv'), index=False)
