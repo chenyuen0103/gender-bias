@@ -205,6 +205,7 @@ def main(args):
                     if not isinstance(total_prob, torch.Tensor):
                         breakpoint()
                         print(f"Error: {total_prob}")
+                    breakpoint()
                     row = {'model': model_str,
                            'conversation': False,
                            'job': job,
