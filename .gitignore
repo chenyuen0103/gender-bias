@@ -161,7 +161,7 @@ cython_debug/
 .DS_Store
 
 .idea/
-data/outputs/
+data/outputs*/
 data/outputs_verbose/
 data/results/
 *.err
