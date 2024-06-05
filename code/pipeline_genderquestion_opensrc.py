@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-from transformers import GPT2TokenizerFast, GPT2LMHeadModel, pipeline, AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import math
 import torch
 import numpy as np
@@ -162,7 +161,9 @@ def main(args):
                     log_probs_of_interest = logprobs[0][prompt_len - 1:]
                     mean_log_prob = log_probs_of_interest.mean()
                     total_prob = torch.exp(mean_log_prob).item()
-                    breakpoint()
+                    if 'gender' == 'diverse':
+                        top_k_tokens = get_top_k(model, tokenizer, prompt, top_k=10)
+                        print(top_k_tokens)
 
 
 
