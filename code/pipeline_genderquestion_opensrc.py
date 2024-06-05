@@ -162,7 +162,7 @@ def main(args):
                     mean_log_prob = log_probs_of_interest.mean()
                     total_prob = torch.exp(mean_log_prob).item()
 
-                    if gender == 'diverse':
+                    if gender == 'diverse' and job == 'skincare specialist':
                         breakpoint()
                         top_k_tokens = get_top_k(model, tokenizer, prompt, top_k=10)
                         print(top_k_tokens)
