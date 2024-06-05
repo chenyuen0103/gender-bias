@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from transformers import GPT2TokenizerFast, GPT2LMHeadModel, pipeline, AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import GPT2TokenizerFast, GPT2LMHeadModel, pipeline, AutoTokenizer, AutoModelForCausalLM
 import math
 import torch
 import numpy as np
