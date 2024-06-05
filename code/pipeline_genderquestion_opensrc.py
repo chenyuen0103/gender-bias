@@ -161,9 +161,9 @@ def main(args):
                     log_probs_of_interest = logprobs[0][prompt_len - 1:]
                     mean_log_prob = log_probs_of_interest.mean()
                     total_prob = torch.exp(mean_log_prob).item()
-                    breakpoint()
-                    if 'gender' == 'diverse':
 
+                    if gender == 'diverse':
+                        breakpoint()
                         top_k_tokens = get_top_k(model, tokenizer, prompt, top_k=10)
                         print(top_k_tokens)
 
