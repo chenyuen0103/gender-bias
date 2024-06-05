@@ -60,15 +60,11 @@ def setup_model(model_str):
     elif model_str == 'alpaca-7b':
         model_id = "allenai/open-instruct-stanford-alpaca-7b"
     HF_TOKEN = os.getenv("HF_TOKEN")
-    if HF_TOKEN is None:
-        raise ValueError
-    else:
-        print("HF_TOKEN read")
-    tokenizer = AutoTokenizer.from_pretrained(model_id, token=HF_TOKEN)
+    tokenizer = AutoTokenizer.from_pretrained(model_id, use_auth_token=HF_TOKEN)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
                                                  # device_map="auto",
                                                  # quantization_config=quantization_config,
-                                                 token=HF_TOKEN)
+                                                 use_auth_token=HF_TOKEN)
     return model, tokenizer
 
 def get_logprobs(model, tokenizer, prompt):
