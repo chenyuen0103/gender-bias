@@ -91,7 +91,7 @@ def main(args):
     gender_expressions = [
         [' Male', ' male', ' Man', ' man', ' He', ' he', ' Him', ' him'],
         [' Female', ' female', ' Woman', ' woman', ' She', ' she', ' Her', ' her'],
-        [' Neutral', ' neutral', ' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' They', ' they', ' Them', ' them']
+        [' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' They', ' they', ' Them', ' them']
     ]
 
     # # Loop to add the stripped version of each expression
@@ -162,10 +162,9 @@ def main(args):
                     mean_log_prob = log_probs_of_interest.mean()
                     total_prob = torch.exp(mean_log_prob).item()
 
-                    if gender == 'diverse' and job == 'skincare specialist':
-                        breakpoint()
-                        top_k_tokens = get_top_k(model, tokenizer, prompt, top_k=10)
-                        print(top_k_tokens)
+                    # if gender == 'diverse' and job == 'skincare specialist':
+                    #     top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
+                    #     print(top_k_tokens)
 
 
 
