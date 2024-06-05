@@ -155,12 +155,12 @@ def main(args):
                     prompt_len = len(tokenizer(prompt_text)['input_ids'])
                     prompt = f"{prompt_text}{pronoun}"
 
-                    logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
-                    # probs, input_token_ids = get_probs(model, tokenizer, prompt)
-                    # token_probs_of_interest = probs[0][prompt_len-1:]
-                    log_probs_of_interest = logprobs[0][prompt_len - 1:]
-                    mean_log_prob = log_probs_of_interest.mean()
-                    total_prob = torch.exp(mean_log_prob).item()
+                    # logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
+                    probs, input_token_ids = get_probs(model, tokenizer, prompt)
+                    token_probs_of_interest = probs[0][prompt_len-1:]
+                    # log_probs_of_interest = logprobs[0][prompt_len - 1:]
+                    # mean_log_prob = log_probs_of_interest.mean()
+                    # total_prob = torch.exp(mean_log_prob).item()
 
                     # if gender == 'diverse' and job == 'skincare specialist':
                     #     top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
@@ -173,9 +173,11 @@ def main(args):
 
 
                     # Calculate the total probability
-                    # total_prob = 1
-                    # for token_prob in token_probs_of_interest:
-                    #     total_prob *= token_prob
+                    total_prob = 1
+                    for token_prob in token_probs_of_interest:
+                        total_prob *= token_prob
+
+                    total_prob = total_prob.item()
 
 
                     # # Extract log probabilities for the tokens of interest
