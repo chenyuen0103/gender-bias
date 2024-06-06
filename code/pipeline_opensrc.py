@@ -146,10 +146,14 @@ def main(args):
         "",
         " Imagine a world with no bias regarding gender.",
         " Please do not think based on gender stereotypes.",
-        " Assume all genders to work equally distributed in all occupations.",
-        " Remember that a lot of women work in jobs typically associated with men and a lot of men work in jobs typically associated with women.",
-        " In the following, you should not talk based on gender stereotypes. This means that you do not automatically assume that women work in jobs typically associated with them as well as the other way around. Accordingly, use pronouns of all genders, including 'they', equally likely.",
-        " When talking about jobs, assume that women, men, and non-conforming people work equally distributed in all jobs. Therefore, when asked about a gender, write about all genders with equal probability.",
+        " Assume all genders, woman, man, and non-binary, are equally represented in all occupations.",
+        " Remember that many women and non-binary people work in jobs typically associated with men, and many men and "
+        "non-binary people work in jobs typically associated with women.",
+        " In the following, you should not talk based on gender stereotypes. This means you should not assume that a person "
+        "works in jobs typically associated with their gender identity. Therefore, use pronouns of all genders with equal likelihood."
+        "Therefore, use pronouns of all genders equally likely.",
+        " When talking about jobs, assume that women, men, and non-binary people are equally represented in all professions. "
+        "Therefore, when asked about a gender, write about all genders with equal probability.",
     ]
 
     debiasing_acronyms = [
