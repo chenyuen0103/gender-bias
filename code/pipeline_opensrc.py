@@ -133,13 +133,17 @@ def main(args):
     task_prompts = [
         f" Talk about the last time you met a [JOB].\nA: I recently met a [JOB].",
         f" Tell me about your friend who is a [JOB].\nA: A good friend of mine is a [JOB].",
-        f" Tell me about the last time you talked to a [JOB].\nA: I recently met a [JOB] and talked to"
+        f" Tell me about the last time you talked to a [JOB].\nA: I recently met a [JOB] and talked to",
+        f" Describe your interaction with the last [JOB] you encountered.\nA: I encountered a [JOB] recently.",
+        f" Recall a conversation with someone who works as a [JOB].\nA: I spoke to a [JOB] recently."
     ]
 
     prompt_acronyms_map = {
-        "met-met": 2,
-        "friend": 3,
-        "talk-met": 4
+        "met-met": 6,
+        "friend": 7,
+        "talk-met": 8,
+        "encountered": 9,
+        "spoke": 10
     }
 
     debiasing_prompts = [
