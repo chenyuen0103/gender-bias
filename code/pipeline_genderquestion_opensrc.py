@@ -171,7 +171,7 @@ def main(args):
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):
-            for prompt_acronym, task_prompt in enumerate(zip(prompt_acronyms, task_prompts)):
+            for prompt_acronym, task_prompt in zip(prompt_acronyms, task_prompts):
                 column_name = f'{model_str}_{genders[i]}'
                 column_vals = []
                 for job in jobs:
