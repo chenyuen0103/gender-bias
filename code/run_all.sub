@@ -1,8 +1,8 @@
 executable = /home/yuenchen/gender-bias/code/run_pipeline.sh
 arguments = $(type) $(model)
-error = /home/yuenchen/gender-bias/pipeline_$(type)$(model).err
-output = /home/yuenchen/gender-bias/pipeline_$(type)$(model).out
-log = /home/yuenchen/gender-bias/pipeline_$(type)$(model).log
+error = /home/yuenchen/gender-bias/logs/pipeline_$(type)$(model).err
+output = /home/yuenchen/gender-bias/logs/pipeline_$(type)$(model).out
+log = /home/yuenchen/gender-bias/logs/pipeline_$(type)$(model).log
 request_memory = 16G
 request_disk = 20G
 request_cpus = 1
@@ -10,27 +10,22 @@ request_gpus = 1
 requirements = TARGET.CUDAGlobalMemoryMb  > 16000
 
 # Define the values for type and model, excluding "" llama3-8b and "" llama3-8b-instruct
-type = "conversation_" "genderquestion_" "genderquestion_conv_"
+# type = "conversation_" "genderquestion_" "genderquestion_conv_"
+# type = ""
 model = llama3-8b llama3-8b-instruct mistral-7b mistral-7b-instruct llama2-7b llama2-7b-chat
 
 # Queue jobs for each combination of type and model
 queue type, model from (
-    conversation_ llama3-8b
-    conversation_ llama3-8b-instruct
-    conversation_ mistral-7b
-    conversation_ mistral-7b-instruct
-    conversation_ llama2-7b
-    conversation_ llama2-7b-chat
     genderquestion_ llama3-8b
     genderquestion_ llama3-8b-instruct
     genderquestion_ mistral-7b
     genderquestion_ mistral-7b-instruct
     genderquestion_ llama2-7b
-    genderquestion_ llama2-7b-chat
-    genderquestion_conv_ llama3-8b
-    genderquestion_conv_ llama3-8b-instruct
-    genderquestion_conv_ mistral-7b
-    genderquestion_conv_ mistral-7b-instruct
-    genderquestion_conv_ llama2-7b
-    genderquestion_conv_ llama2-7b-chat
+    genderquestion_ llama2-7b-instruct
+    "" llama3-8b
+    "" llama3-8b-instruct
+    "" mistral-7b
+    "" mistral-7b-instruct
+    "" llama2-7b
+    "" llama2-7b-instruct
 )
