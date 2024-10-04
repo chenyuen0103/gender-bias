@@ -213,7 +213,7 @@ def main(args):
 
                         if job == 'computer architect':
                             top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
-                            breakpoint()
+                            # breakpoint()
                             print(top_k_tokens)
 
 
@@ -253,6 +253,7 @@ def main(args):
                                'pronoun_prob': total_prob
                                }
                         verbose_rows.append(row)
+                    # breakpoint()
                     column_vals.append(gender_prob)
                 df[column_name] = column_vals
 
