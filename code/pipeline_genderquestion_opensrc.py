@@ -89,9 +89,10 @@ def main(args):
     ratios = df['female_ratio'].to_list()
 
     gender_expressions = [
-        [' Male', ' male', ' Man', ' man', ' He', ' he', ' Him', ' him'],
-        [' Female', ' female', ' Woman', ' woman', ' She', ' she', ' Her', ' her'],
-        [' Neutral', ' neutral', ' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' They', ' they', ' Them', ' them']
+        [' Male', ' male', ' Man', ' man', ' He', ' he', ' Him', ' him', 'Male', 'male', 'Man', 'man', 'He', 'he', 'Him', 'him']
+        [' Female', ' female', ' Woman', ' woman', ' She', ' she', ' Her', ' her','Female', 'female', 'Woman', 'woman', 'She', 'she', 'Her', 'her'],
+        [' Neutral', ' neutral', ' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' They', ' they', ' Them', ' them',
+         'Neutral', 'neutral', 'Nonbinary', 'nonbinary', 'Non-binary', 'non-binary', 'They', 'they', 'Them', 'them']
     ]
 
     # # Loop to add the stripped version of each expression
