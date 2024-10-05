@@ -10,6 +10,30 @@ from efficiency.function import set_seed
 
 
 
+# def get_probs(model, tokenizer, prompt):
+#     # Tokenize the prompt and convert to PyTorch tensors
+#     device = model.device
+#     inputs = tokenizer(prompt, return_tensors='pt').to(device)
+#
+#     # Perform a forward pass through the model without computing gradients
+#     with torch.no_grad():
+#         outputs = model(**inputs)
+#
+#     # Get logits and apply softmax to get probabilities
+#     logits = outputs.logits
+#     probs = torch.softmax(logits, dim=-1)
+#
+#     # Shift logits and labels to align them
+#     shift_probs = probs[:, :-1, :].contiguous()
+#     shift_input_ids = inputs['input_ids'][:, 1:].contiguous()
+#
+#     # Gather the probabilities corresponding to the actual next tokens
+#     next_token_probs = shift_probs.gather(-1, shift_input_ids.unsqueeze(-1)).squeeze(-1)
+#
+#     return next_token_probs, shift_input_ids
+
+
+
 def get_probs(model, tokenizer, prompt):
     # Tokenize the prompt and convert to PyTorch tensors
     device = model.device
@@ -19,18 +43,14 @@ def get_probs(model, tokenizer, prompt):
     with torch.no_grad():
         outputs = model(**inputs)
 
-    # Get logits and apply softmax to get probabilities
-    logits = outputs.logits
-    probs = torch.softmax(logits, dim=-1)
+    # Get logits and apply softmax to get probabilities over the vocabulary
+    logits = outputs.logits  # Shape: (batch_size, sequence_length, vocab_size)
+    probs = torch.softmax(logits, dim=-1)  # Shape: (batch_size, sequence_length, vocab_size)
 
-    # Shift logits and labels to align them
-    shift_probs = probs[:, :-1, :].contiguous()
-    shift_input_ids = inputs['input_ids'][:, 1:].contiguous()
+    # Return the full probabilities over the vocabulary for each token in the sequence
+    return probs, inputs['input_ids']
 
-    # Gather the probabilities corresponding to the actual next tokens
-    next_token_probs = shift_probs.gather(-1, shift_input_ids.unsqueeze(-1)).squeeze(-1)
 
-    return next_token_probs, shift_input_ids
 
 def setup_model(model_str):
     # Load the tokenizer and model from Hugging Face

@@ -210,17 +210,20 @@ def main(args):
                         prompt = f"{prompt_text}{pronoun}"
                         # print(f"Prompt: {prompt}", flush=True)
 
-                        # logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
+                        # Get the full probabilities over the vocabulary and the input token IDs
+                        probs, input_token_ids = get_probs(model, tokenizer, prompt)
+
+                        # Get the token ID for "Male"
+                        male_token_id = tokenizer.convert_tokens_to_ids("Male")
+                        male_token_prob = probs[0, prompt_len - 1, male_token_id].item()
+                        breakpoint()
+
+
                         probs, input_token_ids = get_probs(model, tokenizer, prompt)
                         token_probs_of_interest = probs[0][prompt_len-1:]
-                        # print(f"token_probs_of_interest shape: {token_probs_of_interest.shape}")
-                        # print(f"token_probs_of_interest values: {token_probs_of_interest}")
-                        #
-                        # # Check that the probabilities are correctly normalized for each token
-                        # # The sum of probabilities across the entire vocabulary should be 1 for each time step
-                        # probs_sum = torch.sum(probs[0], dim=-1)
-                        # print(f"Sum of probabilities at each step (should be ~1): {probs_sum}")
 
+
+                        # logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
                         # log_probs_of_interest = logprobs[0][prompt_len - 1:]
                         # mean_log_prob = log_probs_of_interest.mean()
                         # total_prob = torch.exp(mean_log_prob).item()
@@ -259,6 +262,9 @@ def main(args):
                             print(f"prompt_text: {prompt_text}")
                             print(f"pronoun: {pronoun}")
                             print(f"total_prob: {total_prob}")
+                            male_token_id = tokenizer.convert_tokens_to_ids(pronoun)
+                            male_token_prob = probs[0, prompt_len - 1, male_token_id].item()
+                            print("pronoun token " + pronoun + "prob: " + male_token_prob)
                             breakpoint()
 
                         row = {'model': model_str,
