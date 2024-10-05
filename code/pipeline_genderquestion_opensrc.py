@@ -260,7 +260,7 @@ def main(args):
                             probs, input_token_ids = get_probs2(model, tokenizer, prompt)
                             male_token_id = tokenizer.convert_tokens_to_ids(pronoun)
                             male_token_prob = probs[0, prompt_len - 1, male_token_id].item()
-                            print("pronoun token " + pronoun + "prob: " + male_token_prob)
+                            print("pronoun token " + pronoun + "prob: " + str(male_token_prob))
                             breakpoint()
 
                         row = {'model': model_str,
