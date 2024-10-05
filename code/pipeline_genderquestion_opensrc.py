@@ -263,7 +263,7 @@ def main(args):
                     # breakpoint()
                     column_vals.append(gender_prob)
                 df[column_name] = column_vals
-            print(f"Finished {num_queries} queries", flush=True)
+            print(f"Finished {num_query_run} queries", flush=True)
 
         for prompt_id, task_prompt in enumerate(task_prompts):
             male_vals = df[f'{model_str}_male_explicit{prompt_id}'].to_list()
@@ -286,7 +286,7 @@ def main(args):
 
             df[f'{model_str}_male_explicit{prompt_id}_prob'] = male_vals
             df[f'{model_str}_female_explicit{prompt_id}_prob'] = female_vals
-            df[f'{model_str}_diverse_prob'] = diverse_vals
+            df[f'{model_str}_diverse_explicit{prompt_id}_prob'] = diverse_vals
 
             df[f'{model_str}_male_explicit{prompt_id}'] = male_vals_new
             df[f'{model_str}_female_explicit{prompt_id}'] = female_vals_new
