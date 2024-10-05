@@ -111,12 +111,11 @@ def main(args):
     jobs = df['job'].to_list()
     ratios = df['female_ratio'].to_list()
 
-    prompt_acronyms = ['met-met', 'friend', 'talk-met']
 
     gender_expressions = [
-        [' He', ' He', ' him'],
-        [' She', ' She', ' her'],
-        [' They', ' They', ' them']
+        [' He', ' he','He','he'],
+        [' She', ' she','She','she'],
+        [' They', ' they','They','they']
     ]
 
     # # Loop to add the stripped version of each expression
@@ -205,47 +204,57 @@ def main(args):
     columns = ['model', 'conversation','job','prompt_id', 'debiasing_id', 'gender','prompt_text', 'pronoun', 'query', 'pronoun_prob']
     verbose_rows = []
     num_query_run = 0
-    for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
+    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
         df = pd.DataFrame()
         df['job'] = jobs
-        for i, pronoun_list in enumerate(gender_expressions):
-            for prompt_id, (prompt_text_base, pronoun) in enumerate(zip(templates, pronoun_list)):
+        for i, (gender, pronoun_list) in enumerate(zip(genders, gender_expressions)):
+            for prompt_id, prompt_text_base in enumerate(templates):
                 column_name = f'{model_str}_{genders[i]}_implicit{prompt_id}'
                 column_vals = []
                 for job in jobs:
-                    prompt_text = prompt_text_base.replace('[JOB]', job)
-                    prompt_text = f"Q:{debiasing_prompt}{prompt_text}".strip()
-                    prompt = f"{prompt_text}{pronoun}"
+                    gender_prob = 0
+                    for pronoun in pronoun_list:
+                        prompt_text = prompt_text_base.replace('[JOB]', job)
+                        prompt_text = f"{debiasing_prompt}{prompt_text}".strip()
+                        prompt = f"{prompt_text}{pronoun}"
 
-                    prompt_len = len(tokenizer(prompt_text)['input_ids'])
+                        prompt_len = len(tokenizer(prompt_text)['input_ids'])
 
-                    # probs, input_token_ids = get_probs(model, tokenizer, prompt)
-                    # token_probs_of_interest = probs[0][prompt_len - 1:]
-                    # # Calculate the total probability
-                    # total_prob = 1
-                    # for token_prob in token_probs_of_interest:
-                    #     total_prob *= token_prob
-                    logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
-                    # probs, input_token_ids = get_probs(model, tokenizer, prompt)
-                    # token_probs_of_interest = probs[0][prompt_len-1:]
-                    log_probs_of_interest = logprobs[0][prompt_len - 1:]
-                    mean_log_prob = log_probs_of_interest.mean()
-                    total_prob = torch.exp(mean_log_prob).item()
+                        # probs, input_token_ids = get_probs(model, tokenizer, prompt)
+                        # token_probs_of_interest = probs[0][prompt_len - 1:]
+                        # # Calculate the total probability
+                        # total_prob = 1
+                        # for token_prob in token_probs_of_interest:
+                        #     total_prob *= token_prob
+                        logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
+                        # probs, input_token_ids = get_probs(model, tokenizer, prompt)
+                        # token_probs_of_interest = probs[0][prompt_len-1:]
+                        log_probs_of_interest = logprobs[0][prompt_len - 1:]
+                        mean_log_prob = log_probs_of_interest.mean()
+                        total_prob = torch.exp(mean_log_prob).item()
+                        gender_prob += total_prob
+                        top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
+                        breakpoint()
+                        input_ids = tokenizer.encode(prompt_text, return_tensors="pt")
+                        output = model.generate(input_ids, max_length=100, num_return_sequences=1, do_sample=True)
+                        generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+                        print(generated_text)
+                        # print(top_k_tokens)
 
 
-                    row = {'model': model_str,
-                           'conversation': False,
-                           'job': job,
-                           'prompt_id': prompt_id,
-                           'debiasing_id': debiasing_acronyms_map[debias_acronym],
-                           'gender': genders[i],
-                           'prompt_text': prompt_text,
-                           'pronoun': pronoun,
-                           'query': prompt,
-                           'pronoun_prob': total_prob
-                           }
-                    verbose_rows.append(row)
-                    num_query_run += 1
+                        row = {'model': model_str,
+                               'conversation': False,
+                               'job': job,
+                               'prompt_id': prompt_id,
+                               'debiasing_id': debiasing_acronyms_map[debias_acronym],
+                               'gender': genders[i],
+                               'prompt_text': prompt_text,
+                               'pronoun': pronoun,
+                               'query': prompt,
+                               'pronoun_prob': total_prob
+                               }
+                        verbose_rows.append(row)
+                        num_query_run += 1
 
 
 
