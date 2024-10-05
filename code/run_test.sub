@@ -1,4 +1,4 @@
-executable = /home/yuenchen/gender-bias/code/run_test.sh
+executable = /home/yuenchen/gender-bias/code/run_pipeline.sh
 arguments = $(model)
 error = /home/yuenchen/gender-bias/pipeline_$(model).err
 output = /home/yuenchen/gender-bias/pipeline_$(model).out
