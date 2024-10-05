@@ -26,6 +26,7 @@ def get_probs(model, tokenizer, prompt):
     # Shift logits and labels to align them
     shift_probs = probs[:, :-1, :].contiguous()
     shift_input_ids = inputs['input_ids'][:, 1:].contiguous()
+    breakpoint()
 
     # Gather the probabilities corresponding to the actual next tokens
     next_token_probs = shift_probs.gather(-1, shift_input_ids.unsqueeze(-1)).squeeze(-1)
