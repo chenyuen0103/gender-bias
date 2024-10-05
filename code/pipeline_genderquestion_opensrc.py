@@ -284,13 +284,13 @@ def main(args):
                 female_vals_new.append(f_final)
                 diverse_vals_new.append(d_final)
 
-            df[f'{model_str}_male_prob'] = male_vals
-            df[f'{model_str}_female_prob'] = female_vals
+            df[f'{model_str}_male_explicit{prompt_id}_prob'] = male_vals
+            df[f'{model_str}_female_explicit{prompt_id}_prob'] = female_vals
             df[f'{model_str}_diverse_prob'] = diverse_vals
 
-            df[f'{model_str}_male'] = male_vals_new
-            df[f'{model_str}_female'] = female_vals_new
-            df[f'{model_str}_diverse'] = diverse_vals_new
+            df[f'{model_str}_male_explicit{prompt_id}'] = male_vals_new
+            df[f'{model_str}_female_explicit{prompt_id}'] = female_vals_new
+            df[f'{model_str}_diverse_explicit{prompt_id}'] = diverse_vals_new
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
