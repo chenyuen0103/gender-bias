@@ -260,13 +260,6 @@ def main(args):
                         mean_log_prob = log_probs_of_interest.mean()
                         total_prob = torch.exp(mean_log_prob).item()
                         gender_prob += total_prob
-                        top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
-                        input_ids = tokenizer.encode(prompt_text, return_tensors="pt").to(device)
-                        output = model.generate(input_ids, max_length=100, num_return_sequences=1, do_sample=False )
-                        generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
-                        print(generated_text)
-                        print(top_k_tokens)
-                        breakpoint()
                         # print(top_k_tokens)
 
 
@@ -287,6 +280,13 @@ def main(args):
 
 
                     column_vals.append(total_prob)
+                top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
+                input_ids = tokenizer.encode(prompt_text, return_tensors="pt").to(device)
+                output = model.generate(input_ids, max_length=100, num_return_sequences=1, do_sample=False)
+                generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+                print(generated_text)
+                print(top_k_tokens)
+                breakpoint()
                 df[column_name] = column_vals
             print(f"Finished {num_query_run} queries", flush=True)
 
