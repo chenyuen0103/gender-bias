@@ -256,10 +256,6 @@ def main(args):
                             print(f"pronoun: {pronoun}")
                             print(f"total_prob: {total_prob}")
                             top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
-                            probs, input_token_ids = get_probs2(model, tokenizer, prompt)
-                            male_token_id = tokenizer.convert_tokens_to_ids(pronoun)
-                            male_token_prob = probs[0, prompt_len - 1, male_token_id].item()
-                            print("pronoun token " + pronoun + "prob: " + str(male_token_prob))
                             # breakpoint()
 
                         row = {'model': model_str,
