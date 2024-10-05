@@ -90,7 +90,7 @@ def main(args):
 
     gender_expressions = [
         [' Male', ' male', ' Man', ' man', ' He', ' he', ' Him', ' him', 'Male', 'male', 'Man', 'man', 'He', 'he', 'Him', 'him'],
-        [' Female', ' female', ' Woman', ' woman', ' She', ' she', ' Her', ' her','Female', 'female', 'Woman', 'woman', 'She', 'she', 'Her', 'her'],
+        [' Female', ' female', ' Woman', ' woman', ' She', ' she', ' Her', ' her', 'Female', 'female', 'Woman', 'woman', 'She', 'she', 'Her', 'her'],
         [' Neutral', ' neutral', ' Nonbinary', ' nonbinary', ' Non-binary', ' non-binary', ' They', ' they', ' Them', ' them',
          'Neutral', 'neutral', 'Nonbinary', 'nonbinary', 'Non-binary', 'non-binary', 'They', 'they', 'Them', 'them']
     ]
@@ -213,6 +213,14 @@ def main(args):
                         # logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
                         probs, input_token_ids = get_probs(model, tokenizer, prompt)
                         token_probs_of_interest = probs[0][prompt_len-1:]
+                        # print(f"token_probs_of_interest shape: {token_probs_of_interest.shape}")
+                        # print(f"token_probs_of_interest values: {token_probs_of_interest}")
+                        #
+                        # # Check that the probabilities are correctly normalized for each token
+                        # # The sum of probabilities across the entire vocabulary should be 1 for each time step
+                        # probs_sum = torch.sum(probs[0], dim=-1)
+                        # print(f"Sum of probabilities at each step (should be ~1): {probs_sum}")
+
                         # log_probs_of_interest = logprobs[0][prompt_len - 1:]
                         # mean_log_prob = log_probs_of_interest.mean()
                         # total_prob = torch.exp(mean_log_prob).item()
@@ -246,6 +254,12 @@ def main(args):
                         #
                         # total_prob = math.exp(total_prob)
                         gender_prob += total_prob
+
+                        if total_prob > 0.9:
+                            print(f"prompt_text: {prompt_text}")
+                            print(f"pronoun: {pronoun}")
+                            print(f"total_prob: {total_prob}")
+                            breakpoint()
 
                         row = {'model': model_str,
                                'conversation': False,
