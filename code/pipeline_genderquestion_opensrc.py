@@ -6,7 +6,7 @@ import numpy as np
 import argparse
 from itertools import product
 from efficiency.function import set_seed
-from utils.exp_utils import get_probs, setup_model, get_top_k, get_logprobs
+from utils.exp_utils import get_probs, setup_model, get_top_k, get_logprobs, get_probs2
 
 
 
@@ -211,12 +211,6 @@ def main(args):
                         # print(f"Prompt: {prompt}", flush=True)
 
                         # Get the full probabilities over the vocabulary and the input token IDs
-                        probs, input_token_ids = get_probs(model, tokenizer, prompt)
-
-                        # Get the token ID for "Male"
-                        male_token_id = tokenizer.convert_tokens_to_ids("Male")
-                        male_token_prob = probs[0, prompt_len - 1, male_token_id].item()
-                        breakpoint()
 
 
                         probs, input_token_ids = get_probs(model, tokenizer, prompt)
@@ -262,6 +256,7 @@ def main(args):
                             print(f"prompt_text: {prompt_text}")
                             print(f"pronoun: {pronoun}")
                             print(f"total_prob: {total_prob}")
+                            probs, input_token_ids = get_probs2(model, tokenizer, prompt)
                             male_token_id = tokenizer.convert_tokens_to_ids(pronoun)
                             male_token_prob = probs[0, prompt_len - 1, male_token_id].item()
                             print("pronoun token " + pronoun + "prob: " + male_token_prob)
