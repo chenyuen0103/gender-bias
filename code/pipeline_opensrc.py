@@ -253,6 +253,7 @@ def main(args):
                         # total_prob = 1
                         # for token_prob in token_probs_of_interest:
                         #     total_prob *= token_prob
+                        breakpoint()
                         logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
                         # probs, input_token_ids = get_probs(model, tokenizer, prompt)
                         # token_probs_of_interest = probs[0][prompt_len-1:]
