@@ -113,9 +113,9 @@ def main(args):
 
 
     gender_expressions = [
-        [' He', ' he','He','he'],
-        [' She', ' she','She','she'],
-        [' They', ' they','They','they']
+        [' He', ' he'],
+        [' She', ' she'],
+        [' They', ' they']
     ]
 
     # # Loop to add the stripped version of each expression
