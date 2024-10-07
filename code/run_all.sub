@@ -16,10 +16,10 @@ model = llama3-8b llama3-8b-instruct mistral-7b mistral-7b-instruct llama2-7b ll
 
 # Queue jobs for each combination of type and model
 queue type, model from (
-#    genderquestion_ llama3-8b
+    genderquestion_ llama3-8b
     genderquestion_ llama3-8b-instruct
-#    genderquestion_ mistral-7b
-#    genderquestion_ mistral-7b-instruct
-#    genderquestion_ llama2-7b
-#   genderquestion_ llama2-7b-instruct
+    genderquestion_ mistral-7b
+    genderquestion_ mistral-7b-instruct
+    genderquestion_ llama2-7b
+   genderquestion_ llama2-7b-instruct
 )

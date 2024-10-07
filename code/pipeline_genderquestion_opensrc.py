@@ -203,7 +203,7 @@ def main(args):
                 for job in jobs:
                     gender_prob = 0
                     for pronoun in gender_exp:
-                        prompt_text = f"Q:{debiasing_prompt}{task_prompt}".replace('[JOB]', job)
+                        prompt_text = f"Q: {debiasing_prompt}{task_prompt}".replace('[JOB]', job)
                         # breakpoint()
                         prompt_len = len(tokenizer(prompt_text)['input_ids'])
                         prompt = f"{prompt_text}{pronoun}"
