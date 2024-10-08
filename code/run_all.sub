@@ -22,9 +22,9 @@ queue type, model from (
 #   genderquestion_ mistral-7b-instruct
 #   genderquestion_ llama2-7b
 #    genderquestion_ llama2-7b-instruct
-    genderquestion_ gemma-7b
-    genderquestion_ gemma-7b-instruct
-    genderquestion_ gemma-2-9b
+#    genderquestion_ gemma-7b
+#    genderquestion_ gemma-7b-instruct
+#    genderquestion_ gemma-2-9b
     genderquestion_ gemma-2-9b-instruct
 
 )
