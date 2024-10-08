@@ -257,7 +257,7 @@ def main(args):
                             print(f"pronoun: {pronoun}")
                             print(f"total_prob: {total_prob}")
                             top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
-                            # breakpoint()
+                            breakpoint()
 
                         row = {'model': model_str,
                                'conversation': False,
