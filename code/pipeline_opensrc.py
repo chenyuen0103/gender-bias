@@ -231,12 +231,13 @@ def main(args):
     columns = ['model', 'conversation','job','prompt_id', 'debiasing_id', 'gender','prompt_text', 'pronoun', 'query', 'pronoun_prob']
     verbose_rows = []
     num_query_run = 0
-    # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
-    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
+    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
+    # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, pronoun_list) in enumerate(zip(genders, gender_expressions)):
-            for prompt_id, prompt_text_base in enumerate(templates):
+            # for prompt_id, prompt_text_base in enumerate(templates):
+            for prompt_id, prompt_text_base in enumerate(templates[:5]):
                 column_name = f'{model_str}_{genders[i]}_implicit{prompt_id}'
                 column_vals = []
                 for job in jobs:
