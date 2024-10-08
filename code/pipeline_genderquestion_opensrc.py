@@ -159,6 +159,15 @@ def main(args):
     }
 
 
+    debias = False
+
+    if debias:
+        task_prompts = task_prompts[:5]
+        debiasing_prompts = debiasing_prompts[1:]
+    else:
+        debiasing_prompts = debiasing_prompts[:1]
+
+
 
     num_queries = len(jobs) * len(task_prompts) * sum([len(gender_expressions[i]) for i in range(len(genders))])
     print(f"Model: {args.model} Number of queries: {num_queries}", flush=True)
@@ -166,7 +175,7 @@ def main(args):
     verbose_rows = []
     num_query_run = 0
     # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
-    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
+    for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):

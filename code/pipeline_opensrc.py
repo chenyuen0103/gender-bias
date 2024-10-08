@@ -114,6 +114,7 @@ def main(args):
         "spoke": 10
     }
 
+
     debiasing_prompts = [
         "",
         " Imagine a world with no bias regarding gender.",
@@ -148,13 +149,26 @@ def main(args):
         "high-5":5,
         "high-6":6,
     }
+
+
+    debias = False
+
+    if debias:
+        templates = templates[:5]
+        debiasing_prompts = debiasing_prompts[1:]
+    else:
+        debiasing_prompts = debiasing_prompts[:1]
+
+
+
+
     num_queries = len(jobs) * len(templates) * sum([len(gender_expressions[i]) for i in range(len(genders))])
     print(f"Number of queries: {num_queries}", flush=True)
     columns = ['model', 'conversation','job','prompt_id', 'debiasing_id', 'gender','prompt_text', 'pronoun', 'query', 'pronoun_prob']
     verbose_rows = []
     num_query_run = 0
     # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
-    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
+    for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, pronoun_list) in enumerate(zip(genders, gender_expressions)):
