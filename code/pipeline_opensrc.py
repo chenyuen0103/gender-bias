@@ -310,13 +310,27 @@ def main(args):
                 female_vals_new.append(f_final)
                 diverse_vals_new.append(d_final)
 
-            df[f'{model_str}_male_implicit{prompt_id}_prob'] = male_vals
-            df[f'{model_str}_female_implicit{prompt_id}_prob'] = female_vals
-            df[f'{model_str}_diverse_implicit{prompt_id}_prob'] = diverse_vals
+            # df[f'{model_str}_male_implicit{prompt_id}_prob'] = male_vals
+            # df[f'{model_str}_female_implicit{prompt_id}_prob'] = female_vals
+            # df[f'{model_str}_diverse_implicit{prompt_id}_prob'] = diverse_vals
+            #
+            # df[f'{model_str}_male_implicit{prompt_id}'] = male_vals_new
+            # df[f'{model_str}_female_implicit{prompt_id}'] = female_vals_new
+            # df[f'{model_str}_diverse_implicit{prompt_id}'] = diverse_vals_new
+            new_data = {
+                f'{model_str}_male_implicit{prompt_id}_prob': male_vals,
+                f'{model_str}_female_implicit{prompt_id}_prob': female_vals,
+                f'{model_str}_diverse_implicit{prompt_id}_prob': diverse_vals,
+                f'{model_str}_male_implicit{prompt_id}': male_vals_new,
+                f'{model_str}_female_implicit{prompt_id}': female_vals_new,
+                f'{model_str}_diverse_implicit{prompt_id}': diverse_vals_new
+            }
 
-            df[f'{model_str}_male_implicit{prompt_id}'] = male_vals_new
-            df[f'{model_str}_female_implicit{prompt_id}'] = female_vals_new
-            df[f'{model_str}_diverse_implicit{prompt_id}'] = diverse_vals_new
+            # Create a new DataFrame with the new columns
+            new_df = pd.DataFrame(new_data)
+
+            # Concatenate the new DataFrame with the existing DataFrame
+            df = pd.concat([df, new_df], axis=1)
 
         # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}.csv'), index=False)
