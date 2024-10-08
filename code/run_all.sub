@@ -15,7 +15,4 @@ requirements = TARGET.CUDAGlobalMemoryMb  > 16000
 model = llama3-8b llama3-8b-instruct mistral-7b mistral-7b-instruct llama2-7b llama2-7b-chat
 
 # Queue jobs for each combination of type and model
-queue type, model from (
-     genderquestion_ gemma-2-9b-instruct
-
-)
+queue type, model from (genderquestion_ gemma-2-9b-instruct)
