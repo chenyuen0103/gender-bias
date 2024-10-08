@@ -153,13 +153,13 @@ def main(args):
     columns = ['model', 'conversation','job','prompt_id', 'debiasing_id', 'gender','prompt_text', 'pronoun', 'query', 'pronoun_prob']
     verbose_rows = []
     num_query_run = 0
-    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
-    # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
+    # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
+    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, pronoun_list) in enumerate(zip(genders, gender_expressions)):
-            # for prompt_id, prompt_text_base in enumerate(templates):
-            for prompt_id, prompt_text_base in enumerate(templates[:5]):
+            for prompt_id, prompt_text_base in enumerate(templates):
+            # for prompt_id, prompt_text_base in enumerate(templates[:5]):
                 column_name = f'{model_str}_{genders[i]}_implicit{prompt_id}'
                 column_vals = []
                 for job in jobs:
@@ -177,7 +177,9 @@ def main(args):
                         # total_prob = 1
                         # for token_prob in token_probs_of_interest:
                         #     total_prob *= token_prob
-                        # breakpoint()
+                        top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
+                        breakpoint()
+
                         logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
                         # probs, input_token_ids = get_probs(model, tokenizer, prompt)
                         # token_probs_of_interest = probs[0][prompt_len-1:]
