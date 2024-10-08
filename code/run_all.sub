@@ -3,11 +3,11 @@ arguments = $(type) $(model)
 error = /home/yuenchen/gender-bias/logs/pipeline_$(type)$(model).err
 output = /home/yuenchen/gender-bias/logs/pipeline_$(type)$(model).out
 log = /home/yuenchen/gender-bias/logs/pipeline_$(type)$(model).log
-request_memory = 16G
-request_disk = 20G
+request_memory = 32G
+request_disk = 32G
 request_cpus = 1
 request_gpus = 1
-requirements = TARGET.CUDAGlobalMemoryMb  > 16000
+requirements = TARGET.CUDAGlobalMemoryMb  > 32000
 
 # Define the values for type and model, excluding "" llama3-8b and "" llama3-8b-instruct
 # type = "conversation_" "genderquestion_" "genderquestion_conv_"
