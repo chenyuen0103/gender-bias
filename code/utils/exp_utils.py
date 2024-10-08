@@ -82,8 +82,8 @@ def setup_model(model_str):
         model_id = "allenai/open-instruct-stanford-alpaca-7b"
     elif model_str == 'gemma-7b':
         model_id = "google/gemma-7b"
-    elif model_str == 'gemma-7b-it':
-        model_id = "google/gemma-7b-instruct"
+    elif model_str == 'gemma-7b-instruct':
+        model_id = "google/gemma-7b-it"
     elif model_str == 'gemma-2-9b':
         model_id = "google/gemma-2-9b"
     elif model_str == 'gemma-2-9b-instruct':
