@@ -231,7 +231,7 @@ def main(args):
     columns = ['model', 'conversation','job','prompt_id', 'debiasing_id', 'gender','prompt_text', 'pronoun', 'query', 'pronoun_prob']
     verbose_rows = []
     num_query_run = 0
-    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[:1], debiasing_acronyms[:1]):
+    for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, pronoun_list) in enumerate(zip(genders, gender_expressions)):
@@ -330,7 +330,7 @@ def parse_args():
     parser.add_argument('--output_verbose_dir', type=str, default='../data/outputs_verbose',
                         help='Verbose output directory')
     parser.add_argument('--model', type=str, default='gpt2',
-                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct','alpaca-7b','llama2-7b-instruct'],
+                        choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct','alpaca-7b','llama2-7b-instruct','gemma-7b','gemma-7b-instruct','gemma-2-9b','gemma-2-9b-instruct'],
                         help='Model name')
     parser.add_argument('--seed', type=int, default=0, help='Random seed')
     return parser.parse_args()

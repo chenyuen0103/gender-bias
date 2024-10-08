@@ -80,6 +80,16 @@ def setup_model(model_str):
         model_id = "meta-llama/Meta-Llama-3-70B-Instruct"
     elif model_str == 'alpaca-7b':
         model_id = "allenai/open-instruct-stanford-alpaca-7b"
+    elif model_str == 'gemma-7b':
+        model_id = "google/gemma-7b"
+    elif model_str == 'gemma-7b-instruct':
+        model_id = "google/gemma-7b-instruct"
+    elif model_str == 'gemma-2-9b':
+        model_id = "google/gemma-2-9b"
+    elif model_str == 'gemma-2-9b-instruct':
+        model_id = "google/gemma-2-9b-it"
+
+
     HF_TOKEN = os.getenv("HF_TOKEN")
     tokenizer = AutoTokenizer.from_pretrained(model_id, use_auth_token=HF_TOKEN)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16,
