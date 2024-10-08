@@ -177,8 +177,8 @@ def main(args):
                         # total_prob = 1
                         # for token_prob in token_probs_of_interest:
                         #     total_prob *= token_prob
-                        top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
-                        breakpoint()
+                        # top_k_tokens = get_top_k(model, tokenizer, prompt_text, top_k=10)
+                        # breakpoint()
 
                         logprobs, input_ids = get_logprobs(model, tokenizer, prompt)
                         # probs, input_token_ids = get_probs(model, tokenizer, prompt)
