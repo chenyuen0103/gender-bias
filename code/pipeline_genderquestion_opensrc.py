@@ -263,7 +263,8 @@ def main(args):
             male_vals = df[f'{model_str}_male_explicit{prompt_id}'].to_list()
             female_vals = df[f'{model_str}_female_explicit{prompt_id}'].to_list()
             diverse_vals = df[f'{model_str}_diverse_explicit{prompt_id}'].to_list()
-
+            df.drop(columns=[f'{model_str}_male_explicit{prompt_id}', f'{model_str}_female_explicit{prompt_id}',
+                             f'{model_str}_diverse_explicit{prompt_id}'], inplace=True)
 
             male_vals_new = []
             female_vals_new = []
