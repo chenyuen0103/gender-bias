@@ -299,12 +299,17 @@ def main(args):
 
             # Concatenate the new DataFrame with the existing DataFrame
             df = pd.concat([df, new_df], axis=1)
-
-        # df.to_csv(f'../data/{model_str}_{debias_acronym}.csv', index=False)
-        df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
-        print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
         df_verbose = pd.DataFrame(verbose_rows, columns=columns)
-        df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_genderquestion_verbose.csv'), index=False)
+        if not args.debias:
+            df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
+            print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
+            df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion_verbose.csv'), index=False)
+            print(f"Saved {output_verbose_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion_verbose.csv", flush=True)
+        else:
+            df.to_csv(os.path.join(output_dir, f"s{args.seed}",'debias', f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
+            print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
+            df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}",'debias', f'{model_str}_{debias_acronym}_genderquestion_verbose.csv'), index=False)
+            print(f"Saved {output_verbose_dir}/s{args.seed}/debias/{model_str}_{debias_acronym}_genderquestion_verbose.csv", flush=True)
 
 
 def parse_args():
