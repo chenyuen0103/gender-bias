@@ -159,9 +159,8 @@ def main(args):
     }
 
 
-    debias = False
 
-    if debias:
+    if args.debias:
         task_prompts = task_prompts[:5]
         debiasing_prompts = debiasing_prompts[1:]
     else:
@@ -318,6 +317,7 @@ def parse_args():
                         choices=['gpt2', 'llama3-8b','llama3-8b-instruct','mistral-7b', 'mistral-7b-instruct','llama2-7b','llama2-7b-chat','llama3-70b','llama3-70b-instruct','alpaca-7b','llama2-7b-instruct','gemma-7b','gemma-7b-instruct','gemma-2-9b','gemma-2-9b-instruct'],
                         help='Model name')
     parser.add_argument('--seed', type=int, default=0, help='Random seed')
+    parser.add_argument('--debias', action='store_true', help='Debiasing')
     return parser.parse_args()
 
 if __name__ == '__main__':
