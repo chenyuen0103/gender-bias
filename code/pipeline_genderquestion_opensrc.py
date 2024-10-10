@@ -113,15 +113,6 @@ def main(args):
     task_prompts = prompts
 
 
-    prompt_acronyms= ["imagine", "picture", "think", "visualize", "consider"]
-
-    # prompt_acronyms_map_explicit = {
-    #     "imagine": 1,
-    #     "picture": 2,
-    #     "think": 3,
-    #     "visualize": 4,
-    #     "consider": 5
-    # }
 
     debiasing_prompts = [
         "",
@@ -158,23 +149,25 @@ def main(args):
         "high-6":6,
     }
 
-
+    args.debias = True
 
     if args.debias:
         task_prompts = task_prompts[:5]
         debiasing_prompts = debiasing_prompts[1:]
+        debiasing_acronyms = debiasing_acronyms[1:]
     else:
         debiasing_prompts = debiasing_prompts[:1]
 
 
 
-    num_queries = len(jobs) * len(task_prompts) * sum([len(gender_expressions[i]) for i in range(len(genders))])
+    num_queries = len(jobs) * len(task_prompts) * len(debiasing_prompts) *  sum([len(gender_expressions[i]) for i in range(len(genders))])
     print(f"Model: {args.model} Number of queries: {num_queries}", flush=True)
     columns = ['model', 'conversation','job','prompt_id', 'debiasing_id', 'gender','prompt_text', 'pronoun', 'query', 'pronoun_prob']
     verbose_rows = []
     num_query_run = 0
     # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
     for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
+        breakpoint()
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):
@@ -300,17 +293,12 @@ def main(args):
             # Concatenate the new DataFrame with the existing DataFrame
             df = pd.concat([df, new_df], axis=1)
         df_verbose = pd.DataFrame(verbose_rows, columns=columns)
-        if not args.debias:
-            df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
-            print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
-            df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion_verbose.csv'), index=False)
-            print(f"Saved {output_verbose_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion_verbose.csv", flush=True)
-        else:
-            df.to_csv(os.path.join(output_dir, f"s{args.seed}",'debias', f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
-            print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
-            df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}",'debias', f'{model_str}_{debias_acronym}_genderquestion_verbose.csv'), index=False)
-            print(f"Saved {output_verbose_dir}/s{args.seed}/debias/{model_str}_{debias_acronym}_genderquestion_verbose.csv", flush=True)
 
+
+        df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
+        print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
+        df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion_verbose.csv'), index=False)
+        print(f"Saved {output_verbose_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion_verbose.csv", flush=True)
 
 def parse_args():
     parser = argparse.ArgumentParser()
