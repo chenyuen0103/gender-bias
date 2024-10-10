@@ -167,7 +167,7 @@ def main(args):
     num_query_run = 0
     # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
     for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
-        breakpoint()
+
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):

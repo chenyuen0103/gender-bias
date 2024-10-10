@@ -150,12 +150,11 @@ def main(args):
         "high-6":6,
     }
 
-
-
-
+    args.debias = True
     if args.debias:
         templates = templates[:5]
         debiasing_prompts = debiasing_prompts[1:]
+        debiasing_acronyms = debiasing_acronyms[1:]
     else:
         debiasing_prompts = debiasing_prompts[:1]
 
