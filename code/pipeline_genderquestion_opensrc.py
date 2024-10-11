@@ -167,12 +167,11 @@ def main(args):
     num_query_run = 0
     # for debiasing_prompt, debias_acronym in zip(debiasing_prompts[1:], debiasing_acronyms[1:]):
     for debiasing_prompt, debias_acronym in zip(debiasing_prompts, debiasing_acronyms):
-
         df = pd.DataFrame()
         df['job'] = jobs
         for i, (gender, gender_exp) in enumerate(zip(genders, gender_expressions)):
             # for prompt_id, task_prompt in enumerate(task_prompts[:5]):
-            for prompt_id, task_prompt in enumerate(task_prompts):
+            for prompt_id, task_prompt in enumerate(task_prompts[:1]):
                 column_name = f'{model_str}_{genders[i]}_explicit{prompt_id}'
                 column_vals = []
                 for job in jobs:
@@ -251,7 +250,7 @@ def main(args):
                 df[column_name] = column_vals
             print(f"Finished {num_query_run} queries", flush=True)
 
-        for prompt_id, task_prompt in enumerate(task_prompts):
+        for prompt_id, task_prompt in enumerate(task_prompts[:1]):
             male_vals = df[f'{model_str}_male_explicit{prompt_id}'].to_list()
             female_vals = df[f'{model_str}_female_explicit{prompt_id}'].to_list()
             diverse_vals = df[f'{model_str}_diverse_explicit{prompt_id}'].to_list()
@@ -292,9 +291,12 @@ def main(args):
 
             # Concatenate the new DataFrame with the existing DataFrame
             df = pd.concat([df, new_df], axis=1)
+            if 'job' not in df.columns:
+                print('jobeless')
         df_verbose = pd.DataFrame(verbose_rows, columns=columns)
 
-
+        if 'job' not in df.columns:
+            df['job'] = jobs
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion.csv'), index=False)
         print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}_genderquestion.csv", flush=True)
         df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_genderquestion_verbose.csv'), index=False)

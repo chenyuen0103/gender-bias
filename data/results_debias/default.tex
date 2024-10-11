@@ -1,0 +1,42 @@
+
+\begin{table*}[ht!]
+\centering
+\small
+    % Reduce text size and slightly the gap between columns
+    \setlength{\tabcolsep}{4.6pt} % Default: 5pt
+    \caption{Results for all models.}
+    % \resizebox{\textwidth}{!}{  % Alternative method: resize entire table (problem: also resizes line widths)
+    \begin{tabular}{l c c c c c c c c c c c c c c}
+    \toprule
+    & \multicolumn{6}{c}{Explicit} & \multicolumn{6}{c}{Implicit} \\
+    \cmidrule(lr){2-7} \cmidrule(lr){8-13}
+    Model & \multicolumn{3}{c}{Female Dominated} & \multicolumn{3}{c}{Male Dominated} & \multicolumn{3}{c}{Female Dominated} & \multicolumn{3}{c}{Male Dominated} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13}
+    & M & F & D & M & F & D & M & F & D & M & F & D \\
+    \midrule
+        Llama-3-8B & 44.2\% & 54.4\% & 1.4\% & 84.4\% & 14.5\% & 1.1\% & 33.0\% & 60.1\% & 6.9\% & 69.6\% & 22.5\% & 7.9\% \\
+        
+        Llama-3-8B-Instruct & 8.3\% & 85.3\% & 6.4\% & 96.2\% & 0.5\% & 3.3\% & 11.4\% & 75.4\% & 13.2\% & 37.8\% & 36.8\% & 25.4\% \\
+        \midrule
+        Mistral-7B & 16.4\% & 83.3\% & 0.3\% & 97.1\% & 2.7\% & 0.2\% & 23.8\% & 68.0\% & 8.3\% & 71.4\% & 19.3\% & 9.3\% \\
+        
+        Mistral-7B-Instruct & 6.2\% & 85.7\% & 8.2\% & 86.1\% & 0.4\% & 13.6\% & 4.9\% & 85.7\% & 9.4\% & 54.0\% & 34.0\% & 12.0\% \\
+        \midrule
+        Llama-2-7B & 45.2\% & 54.1\% & 0.8\% & 73.5\% & 25.7\% & 0.7\% & 31.9\% & 60.5\% & 7.7\% & 71.4\% & 20.5\% & 8.1\% \\
+        
+        Llama-2-7B-Instruct & 26.4\% & 73.5\% & 0.1\% & 91.3\% & 8.6\% & 0.1\% & 19.8\% & 45.3\% & 34.9\% & 48.6\% & 13.5\% & 37.8\% \\
+        \midrule
+        Gemma-7B & 26.7\% & 72.4\% & 0.9\% & 91.2\% & 8.2\% & 0.6\% & 22.6\% & 69.7\% & 7.7\% & 68.2\% & 23.4\% & 8.3\% \\
+        
+        Gemma-7B-Instruct & 15.9\% & 84.1\% & 0.0\% & 100.0\% & 0.0\% & 0.0\% & 0.9\% & 72.2\% & 27.0\% & 25.8\% & 32.9\% & 41.3\% \\
+        \midrule
+        Gemma-2-9B & 13.0\% & 86.9\% & 0.1\% & 98.9\% & 1.0\% & 0.1\% & 32.4\% & 64.0\% & 3.6\% & 94.0\% & 2.2\% & 3.8\% \\
+        
+        Gemma-2-9B-Instruct & 6.1\% & 80.7\% & 13.2\% & 88.5\% & 0.1\% & 11.4\% & 9.2\% & 75.0\% & 15.8\% & 73.0\% & 10.7\% & 16.2\% \\
+        
+
+\bottomrule
+\end{tabular}
+% } % end \resizebox
+\label{tab:explicit_default}
+\end{table*}
