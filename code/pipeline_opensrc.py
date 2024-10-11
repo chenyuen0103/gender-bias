@@ -269,8 +269,8 @@ def main(args):
 
         df.to_csv(os.path.join(output_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}.csv'), index=False)
         print(f"Saved {output_dir}/s{args.seed}/{model_str}_{debias_acronym}.csv", flush=True)
-        df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_implicit_verbose.csv'), index=False)
-        print(f"Saved {output_verbose_dir}/s{args.seed}/{model_str}_implicit_verbose.csv", flush=True)
+        df_verbose.to_csv(os.path.join(output_verbose_dir, f"s{args.seed}", f'{model_str}_{debias_acronym}_implicit_verbose.csv'), index=False)
+        print(f"Saved {output_verbose_dir}/s{args.seed}/{model_str}_{debias_acronym}_implicit_verbose.csv", flush=True)
 
 
 def parse_args():
