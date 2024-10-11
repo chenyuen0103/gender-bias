@@ -143,7 +143,7 @@ def main(args):
         "high-6":6,
     }
 
-    args.debias = True
+    # args.debias = True
     if args.debias:
         templates = templates[:5]
         debiasing_prompts = debiasing_prompts[1:]
