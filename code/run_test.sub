@@ -11,5 +11,5 @@ requirements = TARGET.CUDAGlobalMemoryMb  > 32000
 
 
 # Queue jobs for each model
-queue model in gemma-2-9b gemma-2-9b-instruct
+queue model in gemma-2-9b gemma-2-9b-instruct gemma-7b gemma-7b-instruct
 

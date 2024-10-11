@@ -164,7 +164,7 @@ cython_debug/
 data/outputs*/
 data/outputs_verbose/
 data/results/
-data/resutls*/
+data/resutls*/g
 *.err
 *.out
 *.log
