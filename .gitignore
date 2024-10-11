@@ -164,11 +164,13 @@ cython_debug/
 data/outputs*/
 data/outputs_verbose/
 data/results/
+data/resutls*/
 *.err
 *.out
 *.log
 
 
 data/prompts*.csv
+
 
 *.sh
